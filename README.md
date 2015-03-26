@@ -9,3 +9,8 @@ El workflow con git es mas o menos asi:
 
 Aca puede pasar que les de algun tipo de error. Lean el error, en general puede ser 2 cosas, o pusieron mal su contraseña, o les dice algo como ```Updates were rejected because the remote contains work that you do not have locally.```. Eso significa que alguien pusheo algo y entonces el repositorio que ustedes tienen localmente no esta up-to-date. Para arreglar eso tienen que hacer ```git pull``` y despues de nuevo ```git push```. 
 
+Latex
+-----
+
+Para compilar el tp, lo que tienen que hacer es ```pdflatex tp.tex```, les va a generar varios archivos, entre ellos un .pdf, ese es el .pdf del tp.
+No se preocupen por borrar los archivos que genero la compilacion para que no se pusheen al repo porque ya agregué las extensiones al archivo ```.gitignore```, es decir, todos los archivos que terminen en esa extension, git los va a ignorar.
