@@ -14,3 +14,7 @@ Latex
 
 Para compilar el tp, lo que tienen que hacer es ```pdflatex tp.tex```, les va a generar varios archivos, entre ellos un .pdf, ese es el .pdf del tp.
 No se preocupen por borrar los archivos que genero la compilacion para que no se pusheen al repo porque ya agregué las extensiones al archivo ```.gitignore```, es decir, todos los archivos que terminen en esa extension, git los va a ignorar.
+
+Haskell
+-------
+Los archivos en Haskell sirven para testear que la especificacion no tenga fallas de tipos o logicos. Anda con ```ghc version 7.8.4```.
