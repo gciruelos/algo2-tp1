@@ -4,10 +4,10 @@ import PriorityQueue
 
 type Interfaz = Int
 
-data Paquete = P Int Int Int deriving(Eq, Show)
-prioridad (P p _ _) = p
-desde (P _ d _) = d
-hasta (P _ _ h) = h
+data Paquete = P Int Computadora Computadora deriving(Eq, Show)
+prioridadPaq (P p _ _) = p
+origenPaq (P _ d _) = d
+destinoPaq (P _ _ h) = h
 
 instance Ord Paquete where
   compare (P a _ _) (P a' _ _) = compare a a'
@@ -61,19 +61,20 @@ mismaIP c1 c2 = (ip c1) == (ip c2)
 ----------- CONEXION ----------------------------------------------------------
 -------------------------------------------------------------------------------
 -- observadores
-conectaA :: Conexion -> Computadora -> Bool
-conectaA (CrearConexion (p1, _) (p2, _)) compu = p1 == compu || p2 == compu
-
--- no me gusta, me gustaria que esto fuera un observador. TODO
-laOtraCompu :: Conexion -> Computadora -> Computadora
-laOtraCompu (CrearConexion (c1, _) (c2, _)) compu = if c1 == compu then c2 else c1
+computadorasQueConecta :: Conexion -> Set Computadora
+computadorasQueConecta (CrearConexion (p1, _) (p2, _)) = Ag p1 (Ag p2 Vacio)
 
 instance Eq Conexion where
-  CrearConexion (c1, i1) (c2, i2) == CrearConexion (c3, i3) (c4, i4) = 
-                (c1 == c3 && i1 == i3 && c2 == c4 && i2 == i4) ||
-                (c1 == c4 && i1 == i4 && c2 == c3 && i2 == i3)
+  x1 == x2 = (computadorasQueConecta x1) == (computadorasQueConecta x2)
 
 -- otras operaciones
+conectaA :: Conexion -> Computadora -> Bool
+conectaA conexion compu = compu `en` (computadorasQueConecta conexion)
+
+laOtraCompu :: Conexion -> Computadora ->  Computadora
+laOtraCompu conexion compu = dameUno ((computadorasQueConecta conexion) -: compu)
+
+
 estanConectadas :: Conexion -> Computadora -> Computadora -> Bool
 estanConectadas conexion c1 c2 = conectaA conexion c1 && conectaA conexion c2
 
@@ -126,25 +127,55 @@ caminoMasCorto conexiones origen destino = caminoMasCortoDeLargoN conexiones ori
 -------------------------------------------------------------------------------
 agregarMuchos :: Eq a => Set a -> PQ a -> PQ a
 agregarMuchos s pq = if esVacio s then pq else agregarMuchos (sinUno s) (Enqueue (dameUno s) pq)
-
+-- observadores
 paquetesEnPC :: DCNET -> Computadora -> PQ Paquete
 paquetesEnPC (NuevaRed _ _) _ = Empty 
 paquetesEnPC (IngresarPaquete red compu' paq) compu = if compu==compu' then Enqueue paq (paquetesEnPC red compu) else paquetesEnPC red compu
 paquetesEnPC (SiguienteSegundo red) compu = agregarMuchos (paquetesRecibidos red compu) (desencolar (paquetesEnPC red compu))
 
-paquetesRecibidos :: DCNET -> Computadora -> Set Paquete
-paquetesRecibidos red compu = Vacio
--- paquetesRecibidos red compu = (Ag compu (vecinos red compu))
--- TODO: falta implementar bien esta funcion. Hay que filtrar ^ este conjunto
--- de tal manera que solo queden las computadoras que mandan un paquete a compu,
--- y despues dada ese conjunto c de computadoras, hay que devolver 
--- map (proxima.paquetes) c
+topologia :: DCNET -> Set Conexion
+topologia (NuevaRed _ conexiones) = conexiones
+topologia (IngresarPaquete red _ _ ) = topologia red
+topologia (SiguienteSegundo red) = topologia red
 
+-- otras operaciones
+--
+siguienteCompu :: DCNET -> Computadora -> Computadora -> Computadora
+siguienteCompu red actual destino =
+       if length (caminoMasCorto (topologia red) actual destino) == 1
+        then actual
+        else head (tail (caminoMasCorto (topologia red) actual destino))
+
+filtrarVaAPC :: DCNET -> Set Computadora -> Computadora -> Set Paquete
+filtrarVaAPC red compus compu =
+     if esVacio compus then Vacio
+       else if siguienteCompu red (dameUno compus)
+                  (destinoPaq (proxima (paquetesEnPC red (dameUno compus)))) ==  compu
+              then Ag (proxima (paquetesEnPC red (dameUno compus))) (filtrarVaAPC red (sinUno compus) compu) 
+              else filtrarVaAPC red (sinUno compus) compu
+
+sacarSiEsDestino :: Set Paquete -> Computadora -> Set Paquete
+sacarSiEsDestino paqs compu =
+     if esVacio paqs
+      then Vacio
+      else if destinoPaq (dameUno paqs) == compu
+             then sacarSiEsDestino (sinUno paqs) compu
+             else Ag (dameUno paqs) (sacarSiEsDestino (sinUno paqs) compu)
+
+-- paquetesRecibidos , los paquetes que va a recibir la computadora cuando pase el proximo segundo
+paquetesRecibidos :: DCNET -> Computadora -> Set Paquete
+paquetesRecibidos red compu = sacarSiEsDestino (filtrarVaAPC red (Ag compu (vecinos (topologia red) compu)) compu ) compu
+--
+
+cantDeElementos :: PQ a -> Int
+cantDeElementos pq = if vacia pq then 0 else 1+(cantDeElementos(desencolar(pq)))
+
+cantPaquetesEnPC :: DCNET -> Computadora -> Int
+cantPaquetesEnPC red compu = cantDeElementos (paquetesEnPC red compu)
 
 
 -- TODO -> funciones que faltan implementar:
 -- recorridoPaquete :: DCNET -> Paquete -> [Conexion] (facil teniendo caminoMasCorto, pero hay cuestion sobre como identificar paquetes distintos)
--- computadoraQueEnvioMasPaquetes :: DCNET -> Computadora (no pense como implementarla
--- #paquetesEnPC :: DCNET -> Computadora -> Nat (facil teniendo paquetesEnPC)
+-- computadoraQueEnvioMasPaquetes :: DCNET -> Computadora (no pense como implementarla)
 
 
