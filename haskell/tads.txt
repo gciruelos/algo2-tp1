@@ -1,0 +1,55 @@
+TAD INTERFAZ ES NAT
+TAD PAQUETE ES (prioridadPaq : NAT, origenPaq : COMPUTADORA, desinoPaq : COMPUTADORA)
+
+TAD COMPUTADORA
+  observadores:
+    ip : computadora -> nat
+    tieneInterfaz : computadora -> interfaz -> bool
+  generadores:
+    CrearComputadora : nat x conj(interfaz) -> computadora
+  otras operaciones:
+    mismaIP : computadora x computadora -> bool
+
+
+TAD CONEXION
+  observadores:
+    computadorasQueConecta : conexion -> conj(computadora)
+  generadores:
+    CrearConexion : tupla(computadora, interfaz) x tupla(computadora, interfaz) -> conexion
+  otras operaciones:
+    conectaA : conexion x computadora -> bool
+    laOtraCompu: conexion x computadora -> computadora
+    estanConectadas : conexion x computadora x computadora -> bool
+    vecinos : conj(conexion) x computadora -> conj(computadora)
+    dameConexion : conj(conexion) x computadora x computadora -> conexion
+
+TAD DCNET
+  observadores:
+    paquetesEnPC : dcnet x computadora -> colaPrior(paquete)
+    topologia : dcnet -> conj(conexion)
+  generadores:
+    NuevaRed : conj(computadora) x conj(conexion) -> dcnet
+    IngresarPaquete : dcnet x computadora x paquete -> dcnet
+    SiguienteSegundo : dcnet -> dcnet
+  otras operaciones:
+
+
+
+AUXILIARES CAMINO_MAS_CORTO
+agregarAlPrincipio : a x conj(secu(a)) -> conj(secu(a))
+caminosDeLargoN : conj(conexion) x computadora x nat -> conj(secu(computadora))
+esCamino : secu(computadora) x computadora x computadora -> bool
+filtrarCaminos : conj(secu(computadora)) x computadora x computadora -> conj(secu(computadora))
+caminoMasCortoDeLargoN : conj(conexion) x computadora x computadora x nat -> secu(computadora)
+caminoMasCorto : conj(conexion) x computadora x computadora -> secu(computadora)
+
+AUXILIARES PAQUETES_EN_PC
+siguienteCompu : dcnet x computadora x computadora -> computadora
+filtrarVaAPC : dcnet x conj(computadora) x computadora -> conj(paquete)
+sacarSiEsDestino : conj(paquete) x computadora -> conj(paquete)
+paquetesRecibidos : dcnet x computadora -> conj(paquete)
+
+
+
+
+
