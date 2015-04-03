@@ -1,13 +1,26 @@
 \begin{tad}{\tadNombre{DCNet}}
 
+\tadIgualdadObservacional{d1}{d2}{dcnet}{<condiciones de igualdad>}
+\tadGeneros{dcnet}
+\tadExporta {}
+\tadUsa {Topología}
+
+\tadObservadores
+
+\tadOperacion{topologiaDe} {dcnet} {topo} {}
+\tadOperacion{paquetesEnPC} {dcnet/d , compu/c} {colaPrior(paq)} {$c\in$ computadoras(topologiaDe($d$))}
+
+\tadGeneradores
+
+\tadOperacion{nuevaRed}{topo}{dcnet}{}
+\tadOperacion{ingresarPaquete} {dcnet , compu , paq} {dcnet} {}
+\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
+
+\tadOtrasOperaciones
 
 
-\tadEncabezadoInline {género} {dcnet}
+\tadAxiomas [$\forall red:$ dcnet ,$\forall comp, orig, des:$ compu]
 
-
-\tadEncabezadoInline {usa} {}
-
-
-\tadEncabezadoInline {exporta} {}
+\tadAxioma{lado izquierdo}{lado derecho}
 
 \end{tad}
