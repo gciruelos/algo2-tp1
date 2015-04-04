@@ -1,26 +1,63 @@
 \begin{tad}{\tadNombre{DCNet}}
 
-\tadIgualdadObservacional{d1}{d2}{dcnet}{<condiciones de igualdad>}
+\tadIgualdadObservacional{d}{d'}{dcnet}{topologia($d$) \igobs topologia($d'$) \yluego \\ 
+								(\paratodo {compu}{c}) ($c\in$ computadoras(topologia($d$)) \impluego \\
+								paquetesEnPC($d$, $c$) \igobs PaquetesEnPC($d'$, $c$))}
 \tadGeneros{dcnet}
-\tadExporta {}
-\tadUsa {Topología}
+\tadExporta {dcnet, observadores, generadores}
+\tadUsa {Topología, Cola De Prioridad(paq), Paquete, Computadora}
 
 \tadObservadores
-
-\tadOperacion{topologiaDe} {dcnet} {topo} {}
-\tadOperacion{paquetesEnPC} {dcnet/d , compu/c} {colaPrior(paq)} {$c\in$ computadoras(topologiaDe($d$))}
+	\tadAlinearFunciones{PCQueEnvioMasPaq}{dcnet , compu , paq}
+	\tadOperacion{topologia} {dcnet} {topo} {}
+	\tadOperacion{paquetesEnPC} {dcnet/d , compu/c} {colaPrior(paq)} {$c\in$ computadoras(topologia($d$))}
+	\tadOperacion{\#PaqEnviadosPC} {dcnet/d , compu/c} {nat} {$c\in$ computadoras(topologia($d$))} 
 
 \tadGeneradores
-
-\tadOperacion{nuevaRed}{topo}{dcnet}{}
-\tadOperacion{ingresarPaquete} {dcnet , compu , paq} {dcnet} {}
-\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
+	\tadOperacion{nuevaRed}{topo}{dcnet}{}
+	\tadOperacion{ingresarPaquete} {dcnet , compu , paq} {dcnet} {debe existir ruta al destino}
+	\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
 
 \tadOtrasOperaciones
+	\tadOperacion{paquetesRecibidos} {dcnet , compu} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
+	\tadOperacion{recorridoPaquete} {dcnet , paq} {secu(compu)} {}
+	\tadOperacion{PCQueEnvioMasPaqAux} {dcnet/d , conj(comp)} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}	
+	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   								  
 
 
-\tadAxiomas [$\forall red:$ dcnet ,$\forall comp, orig, des:$ compu]
+\tadAxiomas [\paratodo {dcnet}{d}, \paratodo {compu}{c, c'}, \paratodo{topo}{t}, \paratodo{paq}{p}]
+	\tadAlinearAxiomas{paquetesEnPC(ingresarPaquete($d$, $comp'$, $p$), $comp$)}
 
-\tadAxioma{lado izquierdo}{lado derecho}
+	\tadAxioma{topologia(nuevaRed($t$))}{t}
+	\tadAxioma{topologia(ingresarPaquete($d$, $c$, $p$))} {topologia($d$)}
+	\tadAxioma{topologia(siguienteSegundo($d$))} {topologia($d$)}
 
+	\tadAxioma{paquetesEnPC(nuevaRed($t$), $c$)} {vacia}
+	\tadAxioma{paquetesEnPC(ingresarPaquete($d$, $c'$, $p$), $c$)} { \IF $c$ = $c'$
+																	THEN encolar($p$, paquetesEnPC($d$, $c$))
+																	ELSE paquetesEnPC($d$, $c$)
+																	FI}	
+	\tadAxioma{paquetesEnPC(siguienteSegundo($d$), $c$)}
+			  {agregarMuchos(paquetesRecibidos($d$, $c$), 			  
+			  
+			  \hspace{6.5em}  desencolar(paquetesEnPC($d$, $c$)))}
+	
+	\tadAxioma{\#PaqEnviadosPC(nuevaRed($t$), $c$)}{0}
+	\tadAxioma{\#PaqEnviadosPC(ingresarPaquete($d$, $c'$, $p$), $c$)} {\#PaqEnviadosPC($d$, $c$)}
+	\tadAxioma{\#PaqEnviadosPC(siguienteSegundo($d$), $c$)} { \IF vacia?(paquetesEnPC($d$, $c$))
+															 THEN \#PaqEnviadosPC($d$, $c$)
+															 ELSE 1 + \#PaqEnviadosPC($d$, $c$)
+															 FI}	
+	
+	\tadAxioma{PCQueEnvioMasPaqAux($d$, $cc$)} { \IF \#(cc) = 1
+												THEN dameUno(cc)
+												ELSE ({\IF \#PaqEnviadosPC($d$, dameUno($cc$)) < 
+										        		 \#PaqEnviadosPC(dameUno(sinUno($cc$)))
+											 		 THEN PCQueEnvioMasPaqAux($d$, sinUno($cc$))
+											 		 ELSE PCQueEnvioMasPaqAux($d$, Ag(dameUno($cc$), sinUno($cc$)))
+													 FI})
+												FI}	
+	
+	\tadAxioma{PCQueEnvioMasPaq($d$)} {PCQueEnvioMasPaqAux($d$, computadoras(topologia($d$)))}
+					
 \end{tad}
