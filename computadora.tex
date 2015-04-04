@@ -1,7 +1,27 @@
 \begin{tad}{\tadNombre{Computadora}}
 
 \tadGeneros{compu}
-\tadUsa {}
-\tadExporta {}
+\tadUsa {nat, bool, interfaz}
+\tadExporta {compu, observadores, generadores, mismaIP}
+
+\tadObservadores
+  \tadAlinearFunciones{CrearComputadora}{nat, conj(interfaz)}
+  \tadOperacion{ip}{compu}{nat}{}
+  \tadOperacion{interfaces}{compu}{conj(interfaz)}{}
+
+\tadGeneradores
+  \tadOperacion{CrearComputadora}{nat, conj(interfaz)}{compu}{}
+
+\tadOtrasOperaciones
+  \tadOperacion{mismaIP}{compu, compu}{bool}{}
+
+\tadAxiomas{\paratodo{nat}{n}, \paratodo{conj(interfaz)}{ci}, \paratodo{compu}{c,c'}} \\
+
+  \tadAlinearAxiomas{interfaces(CrearComputadora(n,ci))}
+  \tadAxioma{ip(CrearComputadora(n, ci)}{n}
+  \tadAxioma{interfaces(CrearComputadora(n, ci)}{ci}
+  \tadAxioma{mismaIP(c, c')}{ip(c) = ip(c')}
+
+
 
 \end{tad}

@@ -54,8 +54,8 @@ ip :: Computadora -> Int
 ip (CrearComputadora i _) = i
 
 
-tieneInterfaz :: Computadora -> Interfaz -> Bool
-tieneInterfaz (CrearComputadora _ s) i = i `en` s
+interfaces :: Computadora -> Set Interfaz
+interfaces (CrearComputadora _ s) = s
 
 -- otras operaciones
 mismaIP c1 c2 = (ip c1) == (ip c2)
