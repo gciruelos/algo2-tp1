@@ -2,13 +2,15 @@
 
 \tadIgualdadObservacional{d}{d'}{dcnet}{topologia($d$) \igobs topologia($d'$) \yluego \\ 
 								(\paratodo {compu}{c}) ($c\in$ computadoras(topologia($d$)) \impluego \\
-								paquetesEnPC($d$, $c$) \igobs PaquetesEnPC($d'$, $c$))}
+								(paquetesEnPC($d$, $c$) \igobs PaquetesEnPC($d'$, $c$) $\wedge$ \\
+								\#PaqEnviadosPC($d$, $c$) \igobs \#PaqEnviadosPC($d'$, $c$)))
+								}
 \tadGeneros{dcnet}
-\tadExporta {dcnet, observadores, generadores}
+\tadExporta {dcnet, observadores, generadores, PCQueEnvióMasPaq, recorridoPaquete, \#PaquetesEnPC}
 \tadUsa {Topología, Cola De Prioridad(paq), Paquete, Computadora}
 
 \tadObservadores
-	\tadAlinearFunciones{PCQueEnvioMasPaq}{dcnet , compu , paq}
+	\tadAlinearFunciones{PCQueEnvioMasPaq}{dcnet/d , conj(compu)/cc}
 	\tadOperacion{topologia} {dcnet} {topo} {}
 	\tadOperacion{paquetesEnPC} {dcnet/d , compu/c} {colaPrior(paq)} {$c\in$ computadoras(topologia($d$))}
 	\tadOperacion{\#PaqEnviadosPC} {dcnet/d , compu/c} {nat} {$c\in$ computadoras(topologia($d$))} 
@@ -20,9 +22,17 @@
 
 \tadOtrasOperaciones
 	\tadOperacion{paquetesRecibidos} {dcnet , compu} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
+	\tadOperacion{siguientePC} {dcnet , compu , compu} {compu} {}
+	\tadOperacion{filtrarVaAPC} {conj(paq) , compu} {conj(paq)} {}
+	%guarda acá, que filtrarVaAPC requiere paquetesEnPC que es para lo que la uso	(definicion circular)
+	\tadOperacion{sacarSiEsDestino} {dcnet , compu} {conj(paq)} {}
+	
 	\tadOperacion{recorridoPaquete} {dcnet , paq} {secu(compu)} {}
-	\tadOperacion{PCQueEnvioMasPaqAux} {dcnet/d , conj(comp)} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}	
-	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   								  
+	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ (\paratodo{compu} {c}, 	
+																	$c\in cc$) \\
+														\hspace*{1em} $c\in$ computadoras(topologia($d$))}	
+	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   
+	\tadOperacion{\#PaquetesEnPC} {dcnet/d , compu/c} {nat}	{$c\in$ computadoras(topologia($d$))}							  
 
 
 \tadAxiomas [\paratodo {dcnet}{d}, \paratodo {compu}{c, c'}, \paratodo{topo}{t}, \paratodo{paq}{p}]
@@ -49,15 +59,25 @@
 															 ELSE 1 + \#PaqEnviadosPC($d$, $c$)
 															 FI}	
 	
-	\tadAxioma{PCQueEnvioMasPaqAux($d$, $cc$)} { \IF \#(cc) = 1
+	%Después ver como se puede hacer que esta axiomatización sea más clara	
+	\tadAxioma{paquetesRecibidos($d$, $c$)} {sacarSiEsDestino(filtrarVaAPC($d$, \\
+												(Ag($c$, vecinos(topologia($d$), $c$), $c$), $c$)}
+	
+	
+	
+	
+	\tadAxioma{PCEnvMasPaqAux($d$, $cc$)} { \IF \#(cc) = 1
 												THEN dameUno(cc)
-												ELSE ({\IF \#PaqEnviadosPC($d$, dameUno($cc$)) < 
-										        		 \#PaqEnviadosPC(dameUno(sinUno($cc$)))
+												ELSE {\IF \#PaqEnviadosPC($d$, dameUno($cc$)) $\leq$ \\
+										        		 \hspace*{1.1em}\#PaqEnviadosPC($d$, dameUno(sinUno($cc$)))\\
 											 		 THEN PCQueEnvioMasPaqAux($d$, sinUno($cc$))
-											 		 ELSE PCQueEnvioMasPaqAux($d$, Ag(dameUno($cc$), sinUno($cc$)))
-													 FI})
+											 		 ELSE PCQueEnvioMasPaqAux($d$, Ag(dameUno($cc$), \\
+											 		 \hspace*{14em}				      sinUno($cc$)))
+													 FI}
 												FI}	
 	
-	\tadAxioma{PCQueEnvioMasPaq($d$)} {PCQueEnvioMasPaqAux($d$, computadoras(topologia($d$)))}
+	\tadAxioma{PCQueEnvióMasPaq($d$)} {\mbox{PCEnvMasPaqAux($d$, computadoras(topologia($d$)))}}
+	
+	\tadAxioma{\#PaquetesEnPC($d$, $c$)} {cantDeElementos(paquetesEnPC($d$, $c$))}
 					
 \end{tad}
