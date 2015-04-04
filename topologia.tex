@@ -4,7 +4,7 @@
 \tadExporta {topo, observadores, generadores, otrasoperaciones}
 \tadUsa {nat, bool, compu, conexion}
 
-\tadAlinearFunciones{computadoras}{nat, conj(interfaz)}
+\tadAlinearFunciones{AgregarComputadora}{conj(compu), compu, compu}
 
 \tadObservadores
 \tadOperacion{computadoras}{topo}{conj(interfaz)}{}
@@ -15,7 +15,7 @@
 \tadGeneradores
 
 \tadOperacion{Vacia}{}{topo}{}
-\tadOperacion{AgregarComputador}{topo, compu}{topo}{}
+\tadOperacion{AgregarComputadora}{topo, compu}{topo}{}
 \tadOperacion{AgregarConexion}{topo, conexion}{topo}{}
 
 \tadOtrasOperaciones
