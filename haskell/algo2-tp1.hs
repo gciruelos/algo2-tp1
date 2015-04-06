@@ -28,9 +28,12 @@ data DCNET = NuevaRed Topologia | IngresarPaquete DCNET Computadora Paquete | Si
 --compu2 = CrearComputadora 2 interFaces
 --compu3 = CrearComputadora 3 interFaces
 
---lasConexiones = Ag  (CrearConexion (compu1,1) (compu2,1))
---                 $ Ag (CrearConexion (compu2,2) (compu3,1))
---                   $ Ag (CrearConexion (compu3,2) (compu1,2)) Vacio
+--conex1 = CrearConexion (compu1,1) (compu2,1)
+--conex2 = CrearConexion (compu2,2) (compu3,1)
+--conex3 = CrearConexion (compu3,2) (compu1,2)
+                   
+--topo1 = AgregarComputadora (AgregarComputadora (AgregarComputadora Vacia compu1) compu2) compu3
+--topo2 = AgregarConexion (AgregarConexion (AgregarConexion topo1 conex1) conex2) conex3
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
@@ -61,7 +64,7 @@ interfaces (CrearComputadora _ s) = s
 mismaIP c1 c2 = (ip c1) == (ip c2)
 
 -- haskell
-interfaces (CrearComputadora _ s) = s
+--interfaces (CrearComputadora _ s) = s
 instance Eq Computadora where
   compu == compu' = ip compu == ip compu' && interfaces compu == interfaces compu'
 

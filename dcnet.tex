@@ -23,19 +23,18 @@
 \tadOtrasOperaciones
 	\tadOperacion{paquetesRecibidos} {dcnet , compu} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
 	\tadOperacion{siguientePC} {dcnet , compu , compu} {compu} {}
-	\tadOperacion{filtrarVaAPC} {conj(paq) , compu} {conj(paq)} {}
+	\tadOperacion{filtrarVaAPC} {conj(compu) , compu} {conj(paq)} {}
 	%guarda acá, que filtrarVaAPC requiere paquetesEnPC que es para lo que la uso	(definicion circular)
-	\tadOperacion{sacarSiEsDestino} {dcnet , compu} {conj(paq)} {}
+	\tadOperacion{sacarSiEsDestino} {conj(paq) , compu} {conj(paq)} {}
 	
 	\tadOperacion{recorridoPaquete} {dcnet , paq} {secu(compu)} {}
-	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ (\paratodo{compu} {c}, 	
-																	$c\in cc$) \\
-														\hspace*{1em} $c\in$ computadoras(topologia($d$))}	
+	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
+																	$cc$ $\subseteq$ computadoras(topologia($d$))}	
 	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   
 	\tadOperacion{\#PaquetesEnPC} {dcnet/d , compu/c} {nat}	{$c\in$ computadoras(topologia($d$))}							  
 
 
-\tadAxiomas [\paratodo {dcnet}{d}, \paratodo {compu}{c, c'}, \paratodo{topo}{t}, \paratodo{paq}{p}]
+\tadAxiomas [\paratodo {dcnet}{d}, \paratodo {compu}{c, c', actual, destino}, \paratodo{topo}{t}, \paratodo{paq}{p}]
 	\tadAlinearAxiomas{paquetesEnPC(ingresarPaquete($d$, $comp'$, $p$), $comp$)}
 
 	\tadAxioma{topologia(nuevaRed($t$))}{t}
@@ -63,8 +62,28 @@
 	\tadAxioma{paquetesRecibidos($d$, $c$)} {sacarSiEsDestino(filtrarVaAPC($d$, \\
 												(Ag($c$, vecinos(topologia($d$), $c$), $c$), $c$)}
 	
+	\tadAxioma{siguientePC($d$, $actual$, $destino$)} {\IF \mbox{long(caminoMasCorto(topologia($d$), $actual$, $destino$))=1}
+													   THEN $actual$
+													   ELSE \mbox{prim(fin(caminoMasCorto(topologia($d$), $actual$, $destino$}
+													   \\)))
+													   FI}
 	
+	\tadAxioma{filtrarVaAPC($d$, $cc$, $c$)} {\IF $\emptyset?$($cc$)
+										 	THEN $\emptyset$
+										 	ELSE {\IF siguientePC($d$, dameUno($cc$), destinoPaq(próximo(
+										 			   paquetesEnPC($d$, dameUno($d$))))) = $c$
+										 			THEN Ag(próximo(paquetesEnPC($d$, dameUno($c$)), filtrarVaAPC($d$, sinUno($cc$), $c$)))
+										 			ELSE filtrarVaAPC($d$, sinUno($cc$), $c$)
+										 			FI}
+											 FI}
 	
+	\tadAxioma{sacarSiEsDestino($cp$, $c$)} {\IF $\emptyset?$($cp$)
+											 THEN $\emptyset$
+											 ELSE {\IF destinoPaq(dameUno($cp$)) = $c$
+											 		THEN sacarSiEsDestino(sinUno($cp$), $c$)
+											 		ELSE \mbox{Ag(dameUno($cp$), sacarSiEsDestino(sinUno($cp$), $c$))}
+											 		FI}
+											 FI} 	
 	
 	\tadAxioma{PCEnvMasPaqAux($d$, $cc$)} { \IF \#(cc) = 1
 												THEN dameUno(cc)
@@ -74,7 +93,7 @@
 											 		 ELSE PCQueEnvioMasPaqAux($d$, Ag(dameUno($cc$), \\
 											 		 \hspace*{14em}				      sinUno($cc$)))
 													 FI}
-												FI}	
+												FI}
 	
 	\tadAxioma{PCQueEnvióMasPaq($d$)} {\mbox{PCEnvMasPaqAux($d$, computadoras(topologia($d$)))}}
 	
