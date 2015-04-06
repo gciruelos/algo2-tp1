@@ -40,7 +40,7 @@ data DCNET = NuevaRed Topologia | IngresarPaquete DCNET Computadora Paquete | Si
 ----------- AUXILIARES --------------------------------------------------------
 -------------------------------------------------------------------------------
 agregarAlPrincipio :: Eq a => a -> Set [a] -> Set [a]
-agregarAlPrincipio a conj = if esVacio conj then Vacio else Ag (a:(dameUno conj)) (sinUno conj)
+agregarAlPrincipio a conj = if esVacio conj then Vacio else Ag (a:(dameUno conj)) (agregarAlPrincipio a (sinUno conj))
 
 agregarMuchos :: Eq a => Set a -> PQ a -> PQ a
 agregarMuchos s pq = if esVacio s then pq else agregarMuchos (sinUno s) (Enqueue (dameUno s) pq)
