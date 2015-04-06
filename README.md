@@ -2,6 +2,7 @@
 
 El workflow con git es mas o menos asi:
 
+0. Antes que nada, tienen que copiar el repositorio en su computadora, con ```git clone https://github.com/gciruelos/algo2-tp1.git```
 1. Terminan de hacer los cambios que quieren.
 2. Cuando lo que hicieron esta correcto (no pusheen cosas incorrectas), agreguen los cambios a su copia local del repositorio, con ```git add .```
 3. Despues hacen efectivos todos los cambios con un commit ```git commit -m "mensaje"```. En mensaje pongan que cambios hicieron.
