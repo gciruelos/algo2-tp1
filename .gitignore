@@ -2,6 +2,9 @@
 *.log
 *.pdf
 *.tex~
-*.synctex.gz
+*.synctex.gz*
+*.bbl
+*.blg
+
 
 
