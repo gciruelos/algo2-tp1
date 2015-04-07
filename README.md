@@ -1,5 +1,6 @@
 # algo2-tp1
 
+
 El workflow con git es mas o menos asi:
 
 0. Antes que nada, tienen que copiar el repositorio en su computadora, con ```git clone https://github.com/gciruelos/algo2-tp1.git```
@@ -9,6 +10,18 @@ El workflow con git es mas o menos asi:
 4. Luego tienen que pushear los cambios al repositorio remoto, o sea al que accedemos todos, para eso hay que hacer ```git push```.
 
 Aca puede pasar que les de algun tipo de error. Lean el error, en general puede ser 2 cosas, o pusieron mal su contraseña, o les dice algo como ```Updates were rejected because the remote contains work that you do not have locally.```. Eso significa que alguien pusheo algo y entonces el repositorio que ustedes tienen localmente no esta up-to-date. Para arreglar eso tienen que hacer ```git pull``` y despues de nuevo ```git push```. 
+
+TODO
+----
+
+Las cosas que faltan hacer:
+
+* TAD Conexion (eze)
+* Restricciones de las funciones (manu)
+* Las funciones que faltan pasar, recorridoPaquete, y auxiliares (gonza)
+* Aprolijar los tads, sobre todo topologia (mathi)
+* Revisar que este todo bien :P
+
 
 Latex
 -----
