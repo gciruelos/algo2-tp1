@@ -29,7 +29,8 @@
  \tadAxioma{interfaz(crearConexion((c1, i1), (c2, i2)), c)}{\IF c=c1 THEN i1 ELSE i2 FI} 
  
  \tadAxioma{conectaA(conexion, c1)}{c1 $\in$ computadorasQueConecta(conexion)}
- 
+ % 08/04/2015 02:42 am me di cuenta que faltaron los "{}" al c1 en la resta de conjuntos en el axioma de laOtraCompu (eze)
+ % Modifiquenlo, yo no sé si va a funcionar si le pongo los corchetes asi a lo bestia, quiza no compila, no sé.
  \tadAxioma{laOtraCompu(conexion, c1, c2)}{dameUno((computadorasQueConecta(conexion)) - c1)}
  
  \tadAxioma{estanConectadas(conexion, c1, c2)}{conectaA(conexion, c1) $\wedge$ conectaA(conexion, c2)}
