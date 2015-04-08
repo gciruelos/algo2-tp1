@@ -98,5 +98,7 @@
 	\tadAxioma{PCQueEnvióMasPaq($d$)} {\mbox{PCEnvMasPaqAux($d$, computadoras(topologia($d$)))}}
 	
 	\tadAxioma{\#PaquetesEnPC($d$, $c$)} {cantDeElementos(paquetesEnPC($d$, $c$))}
+	
+	\tadAxioma{recorridoPaquete($d$, $p$, $c$)} {caminoMasCorto(topologia($d$), origenPaq($p$), $c$)}
 					
 \end{tad}

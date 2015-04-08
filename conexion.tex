@@ -1,30 +1,37 @@
 \begin{tad}{\tadNombre{Conexion}}
  
+ %La igualdad observacional no sé si está bien...
+ \tadIgualdadObservacional{c}{c'}{conexion}{computadorasQueConecta($c$) \igobs computadorasQueConecta($c'$) \yluego (\paratodo {compu}{c1}) (conectaA(c, c1) \yluego conectaA(c', c1)) \impluego \\
+								(interfaz(c, c1) \igobs interfaz(c', c1)}
+ %No se qué se tiene que poner en generos, experta y usa, revisar.
  \tadGeneros{conexion}
  \tadExporta {conexion, observadores, generadores, otrasoperaciones}
  \tadUsa {compu, bool}
  
+ \tadGeneradores
+ 
+ \tadOperacion{crearConexion}{tupla(compu/c1, interfaz/i1), tupla(compu/c2, interfaz/i2)}{conexion}{tieneInterfaz(c1, i1) $\wedge$ tieneInterfaz(c2, i2)}
+ 
  \tadObservadores
  \tadOperacion{computadorasQueConecta}{conexion}{conj(compu)}{}
- 
- \tadGeneradores
- %crearOperacion necesitaria ver tambien que no exista ya una conexion de la compu 1 usando la interfaz 1, y lo mismo para c2 con i2... quiza habria que crear algun otro observador.
- \tadOperacion{crearConexion}{tupla(compu/c1, interfaz/i1), tupla(compu/c2, interfaz/i2)}{conexion}{tieneInterfaz(c1,i1) $\wedge$ tieneInterfaz(c2,i2)}
+ \tadOperacion{interfaz}{conexion/c, compu/c1}{Interfaz}{conectaA(c, c1)}
  
  \tadOtrasOperaciones
  
  \tadOperacion{conectaA}{conexion, compu}{bool}{}
- \tadOperacion{laOtraCompu}{conexion c, compu c1}{compu}{c1 \in compusQueConecta(c)}
+ \tadOperacion{laOtraCompu}{conexion/c, compu/c1}{compu}{conectaA(c, c1)}
  \tadOperacion{estanConectadas}{conexion, compu, compu}{bool}{}
  
  \tadAxiomas [\paratodo{compu}{c1,c2}, \paratodo{conexion}{conexion}, \paratodo{interfaz}{i1,i2}]
  
- \tadAxioma{computadorasQueConecta(crearConexion (c1,i1) (c2,i2))}{Ag(c1, Ag(c2, Vacio))}
+ \tadAxioma{computadorasQueConecta(crearConexion((c1, i1), (c2, i2)))}{Ag(c1, Ag(c2, Vacio))}
+
+ \tadAxioma{interfaz(crearConexion((c1, i1), (c2, i2)), c)}{\IF c=c1 THEN i1 ELSE i2 FI} 
  
- \tadAxioma{conectaA(conexion, c1)}{c1 \in (computadorasQueConecta(conexion))}
+ \tadAxioma{conectaA(conexion, c1)}{c1 $\in$ computadorasQueConecta(conexion)}
  
  \tadAxioma{laOtraCompu(conexion, c1, c2)}{dameUno((computadorasQueConecta(conexion)) - c1)}
  
- \tadAxioma{estanConectadas(conexion, c1, c2)}{conectaA(conexion,c1) && conectaA(conexion,c2)}
+ \tadAxioma{estanConectadas(conexion, c1, c2)}{conectaA(conexion, c1) $\wedge$ conectaA(conexion, c2)}
 
 \end{tad}
