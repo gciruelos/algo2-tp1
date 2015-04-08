@@ -16,10 +16,13 @@ TODO
 
 Las cosas que faltan hacer:
 
-* TAD Conexion (eze)
-* Restricciones de las funciones (manu)
+
 * Las funciones que faltan pasar, recorridoPaquete, y auxiliares (gonza)
 * Aprolijar los tads, sobre todo topologia (mathi)
+* restriccion ingrsarPaquete
+* modelar TAD paquete (tupla de 5 elementos, "origen, destino, prioridad, dato, id")
+* quitarConexion es una otra operacion
+* sacar auxiliares de donde están
 * Revisar que este todo bien :P
 
 
