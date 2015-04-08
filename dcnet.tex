@@ -17,7 +17,11 @@
 
 \tadGeneradores
 	\tadOperacion{nuevaRed}{topo}{dcnet}{}
-	\tadOperacion{ingresarPaquete} {dcnet , compu , paq} {dcnet} {debe existir ruta al destino}
+	\tadOperacion{ingresarPaquete} {dcnet/d , compu/c , paq/p} {dcnet} {origenPaq($p$),destinoPaq($p$)
+																	  $\in$ computadoras(topologia($d$)) \yluego\\
+																	 (\existe{nat}{n}, $n \leq$ \#computadoras(topologia($d$)))\\
+																	  $\neg\emptyset?$
+																(filtrarCaminos(caminoDeLargoN(topologia($d$), origenPaq($p$), $n$), origenPaq($p$), destinoPaq($p$)))}
 	\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
 
 \tadOtrasOperaciones

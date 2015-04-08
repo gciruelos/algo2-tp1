@@ -9,25 +9,42 @@
 \tadObservadores
 \tadOperacion{computadoras}{topo}{conj(interfaz)}{}
 \tadOperacion{conexiones}{topo}{conj(conexion)}{}
-\tadOperacion{quitarConexion}{topo, conexion}{topo}{}
+\tadOperacion{quitarConexion}{topo/t, conexion/c}{topo}{$c$ $\in$ conexiones($t$)}
 
 
 \tadGeneradores
 
 \tadOperacion{Vacia}{}{topo}{}
 \tadOperacion{AgregarComputadora}{topo, compu}{topo}{}
-\tadOperacion{AgregarConexion}{topo, conexion}{topo}{}
+\tadOperacion{AgregarConexion}{topo/t, conexion/c}{topo}{compusQueConecta($c$) $\subseteq$ computadoras($t$) $\wedge$ \\
+													(\paratodo{conexion}{c'}, $c$ $\neq$ $c'$) \\
+													compusQueConecta($c$) $\neq$ compusQueConecta($c'$) $\wedge$ \\
+													(\paratodo{compu}{pc}, $pc$ $\in$ compusQueConecta($c$)) \\
+													\hspace*{1em} (\paratodo{conexiones}{c'}, conectaA($c'$, $pc$))\\
+													\hspace*{1em} interfaz($c$, $pc$) $\neq$ interfaz($c'$, $pc$)}
 
 \tadOtrasOperaciones
 
-\tadOperacion{vecinos}{topo, compu}{conj(compu)}{}
-\tadOperacion{dameConexion}{topo, compu, compu}{conexion}{}
-\tadOperacion{caminosDeLargoN}{topo, compu, nat}{conj(compu)}{}
+\tadOperacion{vecinos}{topo/t, compu/pc}{conj(compu)}{$pc$ $\in$ computadoras($t$)}
+\tadOperacion{dameConexion}{topo/t, compu/pc, compu/pc'}{conexion}{estanConectadas($pc$, $pc'$) $\wedge$
+														crearConexion($pc$, $pc'$) $\in$ conexiones($t$)}
+\tadOperacion{caminosDeLargoN}{topo/t, compu/pc, nat/n}{conj(compu)}{$pc$ $\in$ computadoras($t$)}
 
 \tadOperacion{esCamino}{conj(compu), compu, compu}{bool}{}
 \tadOperacion{filtrarCaminos}{conj(compu), compu, compu}{conj(compu)}{}
-\tadOperacion{caminoMasCortoDeLargoN}{topo, compu, compu, nat}{conj(compu)}{}
-\tadOperacion{caminoMasCorto}{topo, compu, compu}{conj(compu)}{}
+
+\tadAlinearFunciones{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}
+\tadOperacion{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
+																				$\neg\emptyset?$
+																				(filtrarCaminos(caminoDeLargoN($t$, $o$, $n$),
+																				 $o$, $d$))}
+\tadAlinearFunciones{caminoMasCortoDeLargoN}{topo, compu, compu, nat}
+
+\tadOperacion{caminoMasCorto}{topo/t, compu/o, compu/d}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
+																				(\existe{nat}{n}, $n \leq$ \#computadoras($t$))\\
+																				$\neg\emptyset?$
+																				(filtrarCaminos(caminoDeLargoN($t$, $o$, $n$),
+																				 $o$, $d$))}
 
 \tadAxiomas [\paratodo{nat}{n}, \paratodo{conj(conexion)}{ccon}, \paratodo{compu}{c,c'}]
 \tadAlinearAxiomas{quitarConexion(AgregarConexion($top$,$conexion'$), $conexion$)}
