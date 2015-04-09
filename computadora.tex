@@ -1,5 +1,10 @@
 \begin{tad}{\tadNombre{Computadora}}
 
+\tadIgualdadObservacional{c}{c'}{compu}
+               {ip(c) = ip(c') $ \land$ \\ 
+							  interfaces(c) = interfaces(c')}
+
+
 \tadGeneros{compu}
 \tadUsa {nat, bool, interfaz}
 \tadExporta {compu, observadores, generadores, mismaIP}
@@ -17,9 +22,9 @@
 
 \tadAxiomas[\paratodo{nat}{n}, \paratodo{conj(interfaz)}{ci}, \paratodo{compu}{c,c'}]
 
-  \tadAlinearAxiomas{interfaces(CrearComputadora(n,ci))}
-  \tadAxioma{ip(CrearComputadora(n, ci)}{n}
-  \tadAxioma{interfaces(CrearComputadora(n, ci)}{ci}
+  \tadAlinearAxiomas{interfaces(CrearComputadora(n,ci)))}
+  \tadAxioma{ip(CrearComputadora(n, ci))}{n}
+  \tadAxioma{interfaces(CrearComputadora(n, ci))}{ci}
   \tadAxioma{mismaIP(c, c')}{ip(c) = ip(c')}
 
 

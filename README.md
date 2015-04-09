@@ -17,12 +17,13 @@ TODO
 Las cosas que faltan hacer:
 
 
-* Las funciones que faltan pasar, recorridoPaquete, y auxiliares (gonza)
+* recorridoPaquete (gonza)
 * Aprolijar los tads, sobre todo topologia (mathi)
-* restriccion ingrsarPaquete
-* modelar TAD paquete (tupla de 5 elementos, "origen, destino, prioridad, dato, id")
+* restriccion ingresarPaquete
 * quitarConexion es una otra operacion
 * sacar auxiliares de donde están
+* revisar exporta's
+* ¿restriccion de hayCamino puede ser macro?
 * Revisar que este todo bien :P
 
 

@@ -4,4 +4,31 @@
 \tadExporta {}
 \tadUsa {}
 
+
+\tadObservadores
+  \tadAlinearFunciones{destinoPaq}{paq}
+  \tadOperacion{origenPaq}{paq}{compu}{}
+  \tadOperacion{destinoPaq}{paq}{compu}{}
+  \tadOperacion{priorPaq}{paq}{nat}{}
+  \tadOperacion{datoPaq}{paq}{string}{}
+  \tadOperacion{idPaq}{paq}{nat}{}
+
+\tadGeneradores
+
+  \tadAlinearFunciones{nuevoPaquete}{compu, compu, nat p, string, nat}
+  \tadOperacion{nuevoPaquete}{compu, compu, nat p, string, nat}{paq}{}
+
+\tadOtrasOperaciones
+\tadOperacion{$\puntito < \puntito$}{paq, paq}{bool}{}
+
+
+\tadAxiomas[\paratodo{paq}{p,p'}, \paratodo{nat}{prior, id}, \paratodo{compu}{origen, destino}, \paratodo{string}{s}]
+  \tadAlinearAxiomas{destinoPaq(nuevoPaquete(origen, destino, prior, s, id))}
+  \tadAxioma{origenPaq(nuevoPaquete(origen, destino, prior, s, id))}{origen}
+  \tadAxioma{destinoPaq(nuevoPaquete(origen, destino, prior, s, id))}{destino}
+  \tadAxioma{priorPaq(nuevoPaquete(origen, destino, prior, s, id))}{prior}
+  \tadAxioma{datoPaq(nuevoPaquete(origen, destino, prior, s, id))}{dato}
+  \tadAxioma{idPaq(nuevoPaquete(origen, destino, prior, s, id))}{id}
+  \tadAxioma{p $<$ p'}{priorPaq(p) $<$ priorPaq(p')}
+
 \end{tad}
