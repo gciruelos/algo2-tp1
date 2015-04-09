@@ -11,5 +11,5 @@
 \tadOperacion{cantDeElementos}{colaPrior($\alpha$)}{nat}{}
 \tadAxioma{cantDeElementos($c$)}{\IF vacia?($c$) THEN $0$ ELSE $1$ + (cantElementos(desencolar($c$)))FI}
 
-
-
+\tadOperacion{elementos}{colaPrior($\alpha$)}{conj($\alpha$)}{}
+\tadAxioma{elementos($c$)}{\IF vacia?($c$) THEN $\emptyset$ ELSE Ag proximo(c) elementos(desencolar(c))FI}

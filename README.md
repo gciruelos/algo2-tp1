@@ -19,8 +19,6 @@ Las cosas que faltan hacer:
 
 * recorridoPaquete (gonza)
 * Aprolijar los tads, sobre todo topologia (mathi)
-* restriccion ingresarPaquete
-* quitarConexion es una otra operacion
 * sacar auxiliares de donde están
 * revisar exporta's
 * ¿restriccion de hayCamino puede ser macro?

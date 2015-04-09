@@ -21,7 +21,8 @@
 																	  $\in$ computadoras(topologia($d$)) \yluego\\
 																	 (\existe{nat}{n}, $n \leq$ \#computadoras(topologia($d$)))\\
 																	  $\neg\emptyset?$
-																(filtrarCaminos(caminoDeLargoN(topologia($d$), origenPaq($p$), $n$), origenPaq($p$), destinoPaq($p$)))}
+																(filtrarCaminos(caminoDeLargoN(topologia($d$), origenPaq($p$), $n$), origenPaq($p$), destinoPaq($p$))) $\land$ \\
+                              (\paratodo{compu}{c'}, $c' \in$ \#computadoras(topologia($d$)) (\paratodo{paq}{p'}, $p' \in$ elementos(paquetesEnPC(d, c')) (idPaq(p) $\neq$ idPaq(p'))))}
 	\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
 
 \tadOtrasOperaciones
