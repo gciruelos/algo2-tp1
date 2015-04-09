@@ -1,15 +1,53 @@
+\begin{itemize}
 
-
-\tadOperacion{agregarAlPrincipio}{$\alpha$, conj(secu($\alpha$))} {conj(secu($\alpha$))}{}
+\item[$\bullet$]\tadOperacion{agregarAlPrincipio}{$\alpha$, conj(secu($\alpha$))} {conj(secu($\alpha$))}{}
 \tadAxioma{agregarAlPrincipio($a$, $s$)}{\IF $\emptyset?$($s$) THEN $\emptyset$ ELSE Ag ($a$ $\puntito$ (dameUno ($s$))) (agregarAlPrincipio($a$, sinUno($s$))) FI}
 
 
-\tadOperacion{agregarMuchos}{conj($\alpha$), colaPrior($\alpha$)}{colaPrior($\alpha$)}{}
+\item[$\bullet$]\tadOperacion{agregarMuchos}{conj($\alpha$), colaPrior($\alpha$)}{colaPrior($\alpha$)}{}
 \tadAxioma{agregarMuchos($s$, $c$)}{\IF $\emptyset?$($s$) THEN c ELSE agregarMuchos (sinUno($s$)) (encolar (dameUno($s$) $c$))FI}
 
 
-\tadOperacion{cantDeElementos}{colaPrior($\alpha$)}{nat}{}
+\item[$\bullet$]\tadOperacion{cantDeElementos}{colaPrior($\alpha$)}{nat}{}
 \tadAxioma{cantDeElementos($c$)}{\IF vacia?($c$) THEN $0$ ELSE $1$ + (cantElementos(desencolar($c$)))FI}
 
-\tadOperacion{elementos}{colaPrior($\alpha$)}{conj($\alpha$)}{}
+\item[$\bullet$]\tadOperacion{elementos}{colaPrior($\alpha$)}{conj($\alpha$)}{}
 \tadAxioma{elementos($c$)}{\IF vacia?($c$) THEN $\emptyset$ ELSE Ag proximo(c) elementos(desencolar(c))FI}
+
+%%%Auxiliares de topologia%%%
+\item[$\bullet$]\tadOperacion{esCamino}{conj(compu), compu, compu}{bool}{}
+\tadAxioma{esCamino($camino$, $origen$, $destino$)}{ long($camino$) > 0 \yluego 
+													$origen$ = prim($camino$) $\wedge$ \\
+													destino = ult($camino$)}
+
+\item[$\bullet$]\tadOperacion{filtrarCaminos}{conj(compu), compu, compu}{conj(compu)}{}
+\tadAxioma{filtrarCaminos($caminos$, $origen$, $destino$)} {\IF esVacio($caminos$) 
+															THEN Vacio 
+															ELSE {\IF esCamino(dameUno($caminos$), $origen$, $destino$) 
+																   THEN Ag(dameUno($caminos$),filtrarCaminos(sinUno($caminos$),
+																   		$origen$,$destino$) 
+																   ELSE filtarCaminos(sinUno($caminos$),$origen$,$destino$)
+																   FI} 
+															FI}
+
+%%%Auxiliares de dcnet%%%
+\item[$\bullet$]\tadOperacion{filtrarVaAPC} {dcnet , conj(compu) , compu} {conj(paq)} {}
+\tadAxioma{filtrarVaAPC($d$, $cc$, $c$)} {\IF $\emptyset?$($cc$)
+										 	THEN $\emptyset$
+										 	ELSE {\IF siguientePC($d$, dameUno($cc$), \\
+										 			\hspace*{1em}destinoPaq(próximo(paquetesEnPC($d$, dameUno($d$))))) = $c$\\
+										 			THEN \mbox{Ag(próximo(paquetesEnPC($d$, dameUno($c$)), filtrarVaAPC($d$,
+										 			 sinUno($cc$), $c$)))}
+										 			ELSE filtrarVaAPC($d$, sinUno($cc$), $c$)
+										 			FI}
+											 FI}
+
+\item[$\bullet$]\tadOperacion{sacarSiEsDestino} {conj(paq) , compu} {conj(paq)} {}
+\tadAxioma{sacarSiEsDestino($cp$, $c$)} {\IF $\emptyset?$($cp$)
+											 THEN $\emptyset$
+											 ELSE {\IF destinoPaq(dameUno($cp$)) = $c$
+											 		THEN sacarSiEsDestino(sinUno($cp$), $c$)
+											 		ELSE \mbox{Ag(dameUno($cp$), sacarSiEsDestino(sinUno($cp$), $c$))}
+											 		FI}
+											 FI}
+\end{itemize}

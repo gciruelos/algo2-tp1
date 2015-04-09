@@ -30,9 +30,6 @@
 														crearConexion($pc$, $pc'$) $\in$ conexiones($t$)}
 \tadOperacion{caminosDeLargoN}{topo/t, compu/pc, nat/n}{conj(compu)}{$pc$ $\in$ computadoras($t$)}
 
-\tadOperacion{esCamino}{conj(compu), compu, compu}{bool}{}
-\tadOperacion{filtrarCaminos}{conj(compu), compu, compu}{conj(compu)}{}
-
 \tadAlinearFunciones{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}
 \tadOperacion{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
 																				$\neg\emptyset?$
@@ -75,13 +72,6 @@ dameUno(conexiones($s$)) ELSE dameConexion(quitarConexion($s$,dameUno(conexiones
 {\IF esVacio(vecinos($s$,$origen$) THEN Vacio 
 ELSE agregarAlPrincipio($origen$,(caminosDeLargoN($s$,dameUno(vecinos($s$,$origen$)),$n-1$) $\cup$ 
 caminosDeLargoN(quitarConexion($s$,dameConexion($s$,$origen$,dameUno(vecinos($s$,$origen$)))), $origen$,$n$) FI} FI}
-
-\tadAxioma{esCamino($camino$, $origen$, $destino$)}{ long($camino$) > 0 \yluego $origen$ == prim($camino$) 
-$\wedge$ destino == ult($camino$)}
-
-\tadAxioma{filtrarCaminos($caminos$, $origen$, $destino$)} {\IF esVacio($caminos$) THEN Vacio ELSE
-{\IF esCamino(dameUno($caminos$), $origen$, $destino$) THEN Ag(dameUno($caminos$),filtrarCaminos(sinUno($caminos$),$origen$,$destino$) 
-ELSE filtarCaminos(sinUno($caminos$),$origen$,$destino$) FI} FI}
 
 \tadAxioma{caminoMasCortoDeLargoN($conexiones$, $origen$, $destino$, $n$)} {\IF $\neg$ esVacio(filtrarCaminos(caminosDeLargoN($conexiones$, $origen$, $n$), $origen$, $destino$)) 
 THEN dameuno(filtrarCaminos(caminosDeLargoN($conexiones$,$origen$,$n$), $origen$, $destino$) ELSE caminoMasCortoDeLargoN($conexiones$,$origen$,$destino$,$n+1$) FI}
