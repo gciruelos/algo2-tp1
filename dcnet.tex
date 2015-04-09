@@ -31,7 +31,7 @@
 	%guarda acá, que filtrarVaAPC requiere paquetesEnPC que es para lo que la uso	(definicion circular)
 	\tadOperacion{sacarSiEsDestino} {conj(paq) , compu} {conj(paq)} {}
 	
-	\tadOperacion{recorridoPaquete} {dcnet , paq} {secu(compu)} {}
+	\tadOperacion{recorridoPaquete} {dcnet , paq} {secu(conexion)} {}
 	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
 																	$cc$ $\subseteq$ computadoras(topologia($d$))}	
 	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   
