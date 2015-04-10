@@ -1,5 +1,10 @@
 \begin{tad}{\tadNombre{Topología}}
 
+\tadIgualdadObservacional{top}{top'}{topo}
+               {computadoras(top) = computadoras(top') \\ $ \land$ 
+							  conexiones(top) = conexiones(top')}
+
+
 \tadGeneros{topo}
 \tadExporta {topo, observadores, generadores, otrasoperaciones}
 \tadUsa {nat, bool, compu, conexion}
@@ -58,7 +63,7 @@
 \tadAxioma{quitarConexion(AgregarComputadora($top$,$compu$), $conexion$)}{quitarConexion($top$,$conexion$)}
 \tadAxioma{quitarConexion(AgregarConexion($top$,$conexion'$), $conexion$)}{\IF conexion == conexion'
 THEN quitarConexion($top$) ELSE AgregarConexion(quitarConexion($top$, conexion), conexion') FI}
-
+\tadAlinearAxiomas{quitarConexion, $conexion$)}
 
 \tadAxioma{vecinos($s$,$compu$)}{\IF esVacio(conexiones($s$) THEN Vacio 
 ELSE {\IF conectaA( dameUno(conexiones($s$)), $compu$) 
@@ -68,15 +73,17 @@ vecinos(quitarConexion($s$, dameUno(conexiones($s$))), $compu$) FI} FI}
 \tadAxioma{dameConexion($s$, $c1$, $c2$)}{\IF estanConectadas(dameUno(conexiones($s$)),$c1$,$c2$) THEN
 dameUno(conexiones($s$)) ELSE dameConexion(quitarConexion($s$,dameUno(conexiones($s$))), $c1$, $c2$) FI}
 
-\tadAxioma {caminoDeLargoN($s$, $origen$, $n$)} {\IF $n == 0$ THEN Ag($origen$, Vacio) ELSE 
+\tadAlinearAxiomas{vacio}
+
+\tadAxioma {caminoDeLargoN($s$, $origen$, $n$)}{\IF $n == 0$ THEN Ag($origen$, Vacio) ELSE 
 {\IF esVacio(vecinos($s$,$origen$) THEN Vacio 
-ELSE agregarAlPrincipio($origen$,(caminosDeLargoN($s$,dameUno(vecinos($s$,$origen$)),$n-1$) $\cup$ 
+ELSE agregarAlPrincipio($origen$,(caminosDeLargoN($s$,dameUno(vecinos($s$,$origen$)),$n-1$) \\ $\cup$ 
 caminosDeLargoN(quitarConexion($s$,dameConexion($s$,$origen$,dameUno(vecinos($s$,$origen$)))), $origen$,$n$) FI} FI}
 
-\tadAxioma{caminoMasCortoDeLargoN($conexiones$, $origen$, $destino$, $n$)} {\IF $\neg$ esVacio(filtrarCaminos(caminosDeLargoN($conexiones$, $origen$, $n$), $origen$, $destino$)) 
+
+\tadAxioma{caminoMasCortoDeLargoN($conexiones$, $origen$, $destino$, $n$)} {\IF \\ $\neg$ esVacio(filtrarCaminos(caminosDeLargoN($conexiones$, $origen$, $n$), $origen$, $destino$)) 
 THEN dameuno(filtrarCaminos(caminosDeLargoN($conexiones$,$origen$,$n$), $origen$, $destino$) ELSE caminoMasCortoDeLargoN($conexiones$,$origen$,$destino$,$n+1$) FI}
 
 \tadAxioma{caminoMasCorto($top$, $origen$, $destino$)}{caminoMasCortoDeLargoN($top$,$origen$,$destino$,0)}
 
 \end{tad}
-
