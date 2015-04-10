@@ -10,7 +10,7 @@
 \tadUsa {Topología, Cola De Prioridad(paq), Paquete, Computadora}
 
 \tadObservadores
-	\tadAlinearFunciones{PCQueEnvioMasPaq}{dcnet/d , compu/c , paq/p}
+	\tadAlinearFunciones{PCQueEnvioMasPaq}{dcnet/d , compu/c , paq/p xx}
 	\tadOperacion{topologia} {dcnet} {topo} {}
 	\tadOperacion{paquetesEnPC} {dcnet/d , compu/c} {colaPrior(paq)} {$c\in$ computadoras(topologia($d$))}
 	\tadOperacion{\#PaqEnviadosPC} {dcnet/d , compu/c} {nat} {$c\in$ computadoras(topologia($d$))} 
@@ -30,10 +30,14 @@
 	\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
 
 \tadOtrasOperaciones
-	\tadOperacion{paquetesRecibidos} {dcnet , compu} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
-	\tadOperacion{siguientePC} {dcnet , compu , compu} {compu} {}
+	\tadOperacion{paquetesRecibidos} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
+	\tadOperacion{siguientePC} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego \\
+																				(\existe{nat}{n}, $n \leq$ \#computadoras(topologia($d$)))\\
+																				$\neg\emptyset?$
+																				(filtrarCaminos(caminosDeLargoN(topologia($d$), $o$, $n$),
+																				 $o$, $d$))}
 		
-	\tadOperacion{recorridoPaquete} {dcnet , paq} {secu(conexion)} {}
+	\tadOperacion{recorridoPaquete} {dcnet/d , paq/p} {secu(conexion)} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$))}
 	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
 																	$cc$ $\subseteq$ computadoras(topologia($d$))}	
 	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   
@@ -58,7 +62,10 @@
 	\tadAxioma{paquetesEnPC(siguienteSegundo($d$), $c$)}
 			  {agregarMuchos(paquetesRecibidos($d$, $c$), 			  
 			  
-			  \hspace{6.5em}  desencolar(paquetesEnPC($d$, $c$)))}
+			  \hspace*{6.5em}  \IFL vacia?(paquetesEnPC($d$,$c$))\\
+			  \hspace*{6.5em}  THEN vacia \\
+			  \hspace*{6.5em}  ELSE desencolar(paquetesEnPC($d$, $c$)))\\
+			  \hspace*{6.5em}FI)}
 	
 	\tadAxioma{\#PaqEnviadosPC(nuevaRed($t$), $c$)}{0}
 	\tadAxioma{\#PaqEnviadosPC(ingresarPaquete($d$, $c'$, $p$), $c$)} {\#PaqEnviadosPC($d$, $c$)}
@@ -72,8 +79,7 @@
 	
 	\tadAxioma{siguientePC($d$, $actual$, $destino$)} {\IF \mbox{long(caminoMasCorto(topologia($d$), $actual$, $destino$))=1}
 													   THEN $actual$
-													   ELSE \mbox{prim(fin(caminoMasCorto(topologia($d$), $actual$, $destino$}
-													   \\)))
+													   ELSE \mbox{prim(fin(caminoMasCorto(topologia($d$), $actual$, $destino$})))
 													   FI}
 	
 	\tadAxioma{PCEnvMasPaqAux($d$, $cc$)} { \IF \#(cc) = 1
@@ -81,7 +87,7 @@
 												ELSE {\IF \#PaqEnviadosPC($d$, dameUno($cc$)) $\leq$ \\
 										        		 \hspace*{1.1em}\#PaqEnviadosPC($d$, dameUno(sinUno($cc$)))\\
 											 		 THEN PCQueEnvioMasPaqAux($d$, sinUno($cc$))
-											 		 ELSE PCQueEnvioMasPaqAux($d$, Ag(dameUno($cc$), sinUno($cc$)))
+											 		 ELSE \mbox{PCQueEnvioMasPaqAux($d$, Ag(dameUno($cc$), sinUno(sinUno($cc$))))}
 													 FI}
 												FI}
 	

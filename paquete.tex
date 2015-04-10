@@ -1,8 +1,13 @@
 \begin{tad}{\tadNombre{Paquete}}
+\tadIgualdadObservacional{p}{p'}{paq}{destinoPaq($p$) \igobs destinoPaq($p'$) $\wedge$\\
+									 origenPaq($p$) \igobs origenPaq($p'$) $\wedge$\\
+									 priorPaq($p$) \igobs priorPaq($p'$) $\wedge$\\
+									 datoPaq($p$) \igobs datoPaq($p'$) $\wedge$\\
+									 idPaq($p$) \igobs idPaq($p'$)}
 
 \tadGeneros{paq}
-\tadExporta {}
-\tadUsa {}
+\tadExporta {paq, generadores, observadores, $<$}
+\tadUsa {Nat, Bool, Computadora, String}
 
 
 \tadObservadores
@@ -15,8 +20,8 @@
 
 \tadGeneradores
 
-  \tadAlinearFunciones{nuevoPaquete}{compu, compu, nat p, string, nat}
-  \tadOperacion{nuevoPaquete}{compu, compu, nat p, string, nat}{paq}{}
+  \tadAlinearFunciones{nuevoPaquete}{compu, compu, nat , string, nat}
+  \tadOperacion{nuevoPaquete}{compu, compu, nat , string, nat}{paq}{}
 
 \tadOtrasOperaciones
 \tadOperacion{$\puntito < \puntito$}{paq, paq}{bool}{}

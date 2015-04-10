@@ -1,7 +1,7 @@
 \begin{tad}{\tadNombre{Conexion}}
  
  %La igualdad observacional no sé si está bien...
- \tadIgualdadObservacional{c}{c'}{conexion}{compusQueConecta($c$) \igobs compusQueConecta($c'$) \yluego (\paratodo {compu}{c1}) (conectaA(c, c1) \yluego conectaA(c', c1)) \impluego \\
+ \tadIgualdadObservacional{c}{c'}{conexion}{compusQueConecta($c$) \igobs compusQueConecta($c'$) $\wedge$ (\paratodo {compu}{c1}) (conectaA(c, c1) \yluego conectaA(c', c1)) \impluego \\
 								(interfaz(c, c1) \igobs interfaz(c', c1)}
  %No se qué se tiene que poner en generos, experta y usa, revisar.
  \tadGeneros{conexion}
@@ -10,11 +10,11 @@
  
  \tadGeneradores
  
- \tadOperacion{crearConexion}{tupla(compu/c1, interfaz/i1), tupla(compu/c2, interfaz/i2)}{conexion}{tieneInterfaz(c1, i1) $\wedge$ tieneInterfaz(c2, i2)}
+ \tadOperacion{crearConexion}{tupla(compu/c, interfaz/i), tupla(compu/c', interfaz/i')}{conexion}{$i\in$ interfaces($c$) $\wedge$ $i'\in$ interfaces($c'$)}
  
  \tadObservadores
  \tadOperacion{compusQueConecta}{conexion}{conj(compu)}{}
- \tadOperacion{interfaz}{conexion/c, compu/c1}{Interfaz}{conectaA(c, c1)}
+ \tadOperacion{interfaz}{conexion/c, compu/c1}{interfaz}{conectaA(c, c1)}
  
  \tadOtrasOperaciones
  

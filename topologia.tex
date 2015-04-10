@@ -1,8 +1,8 @@
 \begin{tad}{\tadNombre{Topología}}
 
-\tadIgualdadObservacional{top}{top'}{topo}
-               {computadoras(top) = computadoras(top') \\ $ \land$ 
-							  conexiones(top) = conexiones(top')}
+\tadIgualdadObservacional{t}{t'}{topo}
+               {computadoras($t$) \igobs computadoras($t'$) $ \land$ \\
+							  conexiones($t$) \igobs conexiones($t'$)}
 
 
 \tadGeneros{topo}
@@ -22,10 +22,10 @@
 \tadOperacion{Vacia}{}{topo}{}
 \tadOperacion{AgregarComputadora}{topo, compu}{topo}{}
 \tadOperacion{AgregarConexion}{topo/t, conexion/c}{topo}{compusQueConecta($c$) $\subseteq$ computadoras($t$) $\wedge$ \\
-													(\paratodo{conexion}{c'}, $c$ $\neq$ $c'$) \\
+													(\paratodo{conexion}{c'}, $c'\in$ conexiones($t$), $c$ $\neq$ $c'$) \\
 													compusQueConecta($c$) $\neq$ compusQueConecta($c'$) $\wedge$ \\
 													(\paratodo{compu}{pc}, $pc$ $\in$ compusQueConecta($c$)) \\
-													\hspace*{1em} (\paratodo{conexiones}{c'}, conectaA($c'$, $pc$))\\
+													\hspace*{1em} (\paratodo{conexiones}{c'}, $c'\in$ conexiones($t$), conectaA($c'$, $pc$))\\
 													\hspace*{1em} interfaz($c$, $pc$) $\neq$ interfaz($c'$, $pc$)}
 
 \tadOtrasOperaciones
@@ -38,52 +38,68 @@
 \tadAlinearFunciones{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}
 \tadOperacion{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
 																				$\neg\emptyset?$
-																				(filtrarCaminos(caminoDeLargoN($t$, $o$, $n$),
+																				(filtrarCaminos(caminosDeLargoN($t$, $o$, $n$),
 																				 $o$, $d$))}
 \tadAlinearFunciones{caminoMasCortoDeLargoN}{topo, compu, compu, nat}
 
 \tadOperacion{caminoMasCorto}{topo/t, compu/o, compu/d}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
 																				(\existe{nat}{n}, $n \leq$ \#computadoras($t$))\\
 																				$\neg\emptyset?$
-																				(filtrarCaminos(caminoDeLargoN($t$, $o$, $n$),
+																				(filtrarCaminos(caminosDeLargoN($t$, $o$, $n$),
 																				 $o$, $d$))}
 
-\tadAxiomas [\paratodo{nat}{n}, \paratodo{conj(conexion)}{ccon}, \paratodo{compu}{c,c'}]
-\tadAlinearAxiomas{quitarConexion(AgregarConexion($top$,$conexion'$), $conexion$)}
+\tadAxiomas [\paratodo{topo}{t}, \paratodo{nat}{n}, \paratodo{conexion}{con, con'}, \paratodo{compu}{c,c', origen, destino}]
+\tadAlinearAxiomas{quitarConexion(AgregarComputadora($t$,$c$), $conexion$)}
 
 \tadAxioma{computadoras(Vacia)}{Vacio}
-\tadAxioma{computadoras(AgregarComputadora($top$,$compu$)}{Ag($compu$,computadoras($top$)}
-\tadAxioma{computadoras(AgregarConexion($top$,$conx$)}{computadoras($top$)}
+\tadAxioma{computadoras(AgregarComputadora($t$,$c$))}{Ag($c$,computadoras($t$))}
+\tadAxioma{computadoras(AgregarConexion($t$,$con$))}{computadoras($t$)}
 
 \tadAxioma{conexiones(Vacia)}{Vacio}
-\tadAxioma{conexiones(AgregarComputadora($top$,$compu$)}{conexiones($top$)}
-\tadAxioma{conexiones(AgregarConexion($top$,$conx$)}{Ag($conx$,conexiones($top$))}
+\tadAxioma{conexiones(AgregarComputadora($t$,$c$)}{conexiones($t$)}
+\tadAxioma{conexiones(AgregarConexion($t$,$con$)}{Ag($con$,conexiones($t$))}
 
-\tadAxioma{quitarConexion(Vacia, $conexion$)}{Vacio}
-\tadAxioma{quitarConexion(AgregarComputadora($top$,$compu$), $conexion$)}{quitarConexion($top$,$conexion$)}
-\tadAxioma{quitarConexion(AgregarConexion($top$,$conexion'$), $conexion$)}{\IF conexion == conexion'
-THEN quitarConexion($top$) ELSE AgregarConexion(quitarConexion($top$, conexion), conexion') FI}
-\tadAlinearAxiomas{quitarConexion, $conexion$)}
+\tadAxioma{quitarConexion(Vacia, $con$)}{Vacio}
+\tadAxioma{quitarConexion(AgregarComputadora($t$,$c$), $con$)}{quitarConexion($t$,$con$)}
+\tadAxioma{quitarConexion(AgregarConexion($t$,$con'$), $con$)}{\IF $con$ = $con'$
+																THEN quitarConexion($t$) 
+																ELSE AgregarConexion(quitarConexion($t$, $con$), $con'$) 
+																FI}
+\tadAlinearAxiomas{caminosDeLargoN($t$, $origen$, $n$)}
 
-\tadAxioma{vecinos($s$,$compu$)}{\IF esVacio(conexiones($s$) THEN Vacio 
-ELSE {\IF conectaA( dameUno(conexiones($s$)), $compu$) 
-THEN Ag(laOtraCompu(dameUno(conexiones($s$)), $compu$), vecinos(quitarConexion($s$, dameUno(conexiones($s$))), $compu$)) ELSE 
-vecinos(quitarConexion($s$, dameUno(conexiones($s$))), $compu$) FI} FI}
+\tadAxioma{vecinos($t$,$c$)}{\IF $\emptyset?$(conexiones($t$)) 
+							THEN $\emptyset$
+							ELSE {\IF conectaA( dameUno(conexiones($t$)), $c$)
+								  THEN \mbox{Ag(laOtraCompu(dameUno(conexiones($t$)), $c$),}\\
+								  \hspace*{1.5em} vecinos(quitarConexion($t$, dameUno(conexiones($t$))), 												$c$)) 
+								  ELSE vecinos(quitarConexion($t$, dameUno(conexiones($t$))), $c$)
+								  FI}
+							 FI}
 
-\tadAxioma{dameConexion($s$, $c1$, $c2$)}{\IF estanConectadas(dameUno(conexiones($s$)),$c1$,$c2$) THEN
-dameUno(conexiones($s$)) ELSE dameConexion(quitarConexion($s$,dameUno(conexiones($s$))), $c1$, $c2$) FI}
+\tadAxioma{dameConexion($t$, $c$, $c'$)}{\IF estanConectadas(dameUno(conexiones($t$)),$c$,$c'$) 
+										THEN dameUno(conexiones($t$)) 
+										ELSE dameConexion(quitarConexion($t$,dameUno(conexiones($t$))), $c$, $c'$) 
+										FI}
 
-\tadAlinearAxiomas{vacio}
+\tadAxioma {caminosDeLargoN($t$, $origen$, $n$)}{\IF $n = 0$ 
+												THEN Ag($origen$, $\emptyset$) 
+												ELSE{\IF $\emptyset?$(vecinos($t$,$origen$)) 
+													 THEN $\emptyset$ 
+													 ELSE agregarAlPrincipio($origen$,\\	
+													 \hspace*{1em}(caminosDeLargoN($t$,dameUno(vecinos($t$,$origen$)), $n-1$) $\cup$ \\
+													 \hspace*{1em}caminosDeLargoN(quitarConexion($t$,\\
+													 \hspace*{2em}dameConexion($t$,$origen$,dameUno(vecinos($t$,$origen$)))), \\
+													 \hspace*{2em}$origen$,$n$) 
+													 FI} 
+												 FI}
 
-\tadAxioma {caminoDeLargoN($s$, $origen$, $n$)}{\IF $n == 0$ THEN Ag($origen$, Vacio) ELSE 
-{\IF esVacio(vecinos($s$,$origen$) THEN Vacio 
-ELSE agregarAlPrincipio($origen$,(caminosDeLargoN($s$,dameUno(vecinos($s$,$origen$)),$n-1$) \\ $\cup$ 
-caminosDeLargoN(quitarConexion($s$,dameConexion($s$,$origen$,dameUno(vecinos($s$,$origen$)))), $origen$,$n$) FI} FI}
+\tadAlinearAxiomas{caminoMasCortoDeLargoN($t$, $origen$, $destino$, $n$)}
+\tadAxioma{caminoMasCortoDeLargoN($t$, $origen$, $destino$, $n$)} {\IF $\neg\emptyset?$(filtrarCaminos(caminosDeLargoN($t$,
+																			$origen$, $n$), $origen$, $destino$))\\
+																			THEN dameuno(filtrarCaminos(caminosDeLargoN($t$,
+																			$origen$,$n$), $origen$, $destino$) 
+																			ELSE caminoMasCortoDeLargoN($t$,$origen$,$destino$,$n+1$) FI}
 
-
-\tadAxioma{caminoMasCortoDeLargoN($conexiones$, $origen$, $destino$, $n$)} {\IF \\ $\neg$ esVacio(filtrarCaminos(caminosDeLargoN($conexiones$, $origen$, $n$), $origen$, $destino$)) 
-THEN dameuno(filtrarCaminos(caminosDeLargoN($conexiones$,$origen$,$n$), $origen$, $destino$) ELSE caminoMasCortoDeLargoN($conexiones$,$origen$,$destino$,$n+1$) FI}
-
-\tadAxioma{caminoMasCorto($top$, $origen$, $destino$)}{caminoMasCortoDeLargoN($top$,$origen$,$destino$,0)}
+\tadAxioma{caminoMasCorto($t$, $origen$, $destino$)}{caminoMasCortoDeLargoN($t$,$origen$,$destino$,0)}
 
 \end{tad}
