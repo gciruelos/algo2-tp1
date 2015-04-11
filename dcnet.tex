@@ -14,6 +14,7 @@
 	\tadOperacion{topologia} {dcnet} {topo} {}
 	\tadOperacion{paquetesEnPC} {dcnet/d , compu/c} {colaPrior(paq)} {$c\in$ computadoras(topologia($d$))}
 	\tadOperacion{\#PaqEnviadosPC} {dcnet/d , compu/c} {nat} {$c\in$ computadoras(topologia($d$))} 
+	\tadOperacion{recorridoPaquete} {dcnet/d , paq/p} {secu(conexion)} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$))}
 
 \tadGeneradores
 	\tadOperacion{nuevaRed}{topo}{dcnet}{}
@@ -30,6 +31,7 @@
 	\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
 
 \tadOtrasOperaciones
+\tadAlinearFunciones{ubicacionPaqCompus}{dcnet/d , paq/p, conj(compu) cc}
 	\tadOperacion{paquetesRecibidos} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
 	\tadOperacion{siguientePC} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego \\
 																				(\existe{nat}{n}, $n \leq$ \#computadoras(topologia($d$)))\\
@@ -37,12 +39,13 @@
 																				(filtrarCaminos(caminosDeLargoN(topologia($d$), $o$, $n$),
 																				 $o$, $d$))}
 		
-	\tadOperacion{recorridoPaquete} {dcnet/d , paq/p} {secu(conexion)} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$))}
+
 	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
 																	$cc$ $\subseteq$ computadoras(topologia($d$))}	
 	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   
 	\tadOperacion{\#PaquetesEnPC} {dcnet/d , compu/c} {nat}	{$c\in$ computadoras(topologia($d$))}							  
-
+	\tadOperacion{ubicacionPaq} {dcnet/d , paq/p} {compu} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$))}
+	\tadOperacion{ubicacionPaqCompus} {dcnet/d , paq/p, conj(compu) cc} {compu} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$)) $\wedge$ \\ $cc \subseteq$ computadoras(topologia($d$))}
 
 \tadAxiomas [\paratodo {dcnet}{d}, \paratodo {compu}{c, c', actual, destino}, \paratodo{topo}{t}, \paratodo{paq}{p}]
 	\tadAlinearAxiomas{topologia(ingresarPaquete($d$, $c$, $p$))}
@@ -73,8 +76,19 @@
 															 THEN \#PaqEnviadosPC($d$, $c$)
 															 ELSE 1 + \#PaqEnviadosPC($d$, $c$)
 															 FI}	
+  
+                               
+  \tadAxioma{recorridoPaquete(ingresarPaquete($d$, $c'$, $p$)}{\IF p $\neq$ p' THEN recorridoPaquete(r, p) ELSE <> FI}
+  \tadAxioma{recorridoPaquete(siguienteSegundo($d$), $p$)}{
+    \IF proximo(paquetesEnPC(r, ubicacionActual($d$, $p$))) = $p$ \\
+    THEN recorridoPaquete(d) $\circulito$\\
+    \hspace*{0.5em} dameConexion(topologia($d$), \\
+    \hspace*{1.3em} siguientePC($d$, ubicacionPaq($d$, $p$), destinoPaq($p$)),\\
+    \hspace*{1.3em} ubicacionPaq($d$, $p$))\\
+  ELSE recorridoPaquete(d) FI}
 	
-	\tadAlinearAxiomas{siguientePC($d$, $actual$, $destino$)}	
+  
+  \tadAlinearAxiomas{siguientePC($d$, $actual$, $destino$)}	
 	\tadAxioma{paquetesRecibidos($d$, $c$)} {sacarSiEsDestino(filtrarVaAPC($d$, (Ag($c$, vecinos(topologia($d$), $c$), $c$), $c$)}
 	
 	\tadAxioma{siguientePC($d$, $actual$, $destino$)} {\IF \mbox{long(caminoMasCorto(topologia($d$), $actual$, $destino$))=1}
@@ -96,5 +110,9 @@
 	\tadAxioma{\#PaquetesEnPC($d$, $c$)} {cantDeElementos(paquetesEnPC($d$, $c$))}
 	
 	\tadAxioma{recorridoPaquete($d$, $p$, $c$)} {caminoMasCorto(topologia($d$), origenPaq($p$), $c$)}
+
+  \tadAxioma{ubicacionPaq($d$, $p$)}{ubicacionPaqCompus($d$, $p$, computadoras(topologia($d$))}
+  
+  \tadAxioma{ubicacionPaqCompus($d$, $p$, $cc$)}{\IF $p \in$ elementos(paquetesEnPC($d$, dameUno($cc$))) THEN dameUno($cc$) ELSE ubicacionPaqCompus($d$, $p$, sinUno($cc$)) FI}
 					
 \end{tad}

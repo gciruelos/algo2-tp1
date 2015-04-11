@@ -31,8 +31,7 @@
 \tadOtrasOperaciones
 \tadOperacion{quitarConexion}{topo/t, conexion/c}{topo}{$c$ $\in$ conexiones($t$)}
 \tadOperacion{vecinos}{topo/t, compu/pc}{conj(compu)}{$pc$ $\in$ computadoras($t$)}
-\tadOperacion{dameConexion}{topo/t, compu/pc, compu/pc'}{conexion}{estanConectadas($pc$, $pc'$) $\wedge$
-														crearConexion($pc$, $pc'$) $\in$ conexiones($t$)}
+\tadOperacion{dameConexion}{topo/t, compu/pc, compu/pc'}{conexion}{(\existe{ conexion}{c}, $c\in$ conexiones($t$)) estanConectadas($c$, $pc$, $pc'$)}
 \tadOperacion{caminosDeLargoN}{topo/t, compu/pc, nat/n}{conj(compu)}{$pc$ $\in$ computadoras($t$)}
 
 \tadAlinearFunciones{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}
