@@ -1,9 +1,11 @@
 \begin{tad}{\tadNombre{DCNet}}
 
 \tadIgualdadObservacional{d}{d'}{dcnet}{topologia($d$) \igobs topologia($d'$) \yluego \\ 
-								(\paratodo {compu}{c}) ($c\in$ computadoras(topologia($d$)) \impluego \\
-								(paquetesEnPC($d$, $c$) \igobs PaquetesEnPC($d'$, $c$) $\wedge$ \\
-								\#PaqEnviadosPC($d$, $c$) \igobs \#PaqEnviadosPC($d'$, $c$)))
+								(\paratodo {compu}{c}, $c\in$ computadoras(topologia($d$))) \\
+								\hspace*{1em}(paquetesEnPC($d$, $c$) \igobs PaquetesEnPC($d'$, $c$) $\yluego$ \\
+								\hspace*{1em}(\paratodo {paq}{p}, $p\in$ elementos(paquetesEnPC($d$, $c$))) \\
+								\hspace*{3em} recorridoPaq($d$, $p$) \igobs recorridoPaq($d'$, $p$) $\wedge$  \\
+								\hspace*{1em}\#PaqEnviadosPC($d$, $c$) \igobs \#PaqEnviadosPC($d'$, $c$)) 
 								}
 \tadGeneros{dcnet}
 \tadExporta {dcnet, observadores, generadores, PCQueEnvióMasPaq, recorridoPaquete, \#PaquetesEnPC}
@@ -78,14 +80,14 @@
 															 FI}	
   
                                
-  \tadAxioma{recorridoPaquete(ingresarPaquete($d$, $c'$, $p$)}{\IF p $\neq$ p' THEN recorridoPaquete(r, p) ELSE <> FI}
+  \tadAxioma{recorridoPaquete(ingresarPaquete($d$, $c$, $p'$), $p$)}{\IF $p$ $\neq$ $p'$ THEN recorridoPaquete($d$, $p$) ELSE <> FI}
   \tadAxioma{recorridoPaquete(siguienteSegundo($d$), $p$)}{
-    \IF proximo(paquetesEnPC(r, ubicacionActual($d$, $p$))) = $p$ \\
-    THEN recorridoPaquete(d) $\circulito$\\
+    \IF proximo(paquetesEnPC($d$, ubicacionPaq($d$, $p$))) = $p$ \\
+    THEN recorridoPaquete($d$, $p$) $\circulito$\\
     \hspace*{0.5em} dameConexion(topologia($d$), \\
     \hspace*{1.3em} siguientePC($d$, ubicacionPaq($d$, $p$), destinoPaq($p$)),\\
     \hspace*{1.3em} ubicacionPaq($d$, $p$))\\
-  ELSE recorridoPaquete(d) FI}
+  ELSE recorridoPaquete($d$, $p$) FI}
 	
   
   \tadAlinearAxiomas{siguientePC($d$, $actual$, $destino$)}	

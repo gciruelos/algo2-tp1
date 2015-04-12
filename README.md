@@ -16,12 +16,9 @@ TODO
 
 Las cosas que faltan hacer:
 
-
-* recorridoPaquete (gonza)
-* Aprolijar los tads, sobre todo topologia (mathi)
-* revisar exporta's
-* ¿restriccion de hayCamino puede ser macro?
-* Revisar que este todo bien :P
+* revisar exporta's (especialmente conexion y topologia)
+* Hacer macro para hayCamino y/o las que les parezcan convenientes
+* Revisar que este todo bien!!! :P
 
 
 Latex
