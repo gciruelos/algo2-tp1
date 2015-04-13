@@ -35,17 +35,10 @@
 \tadOperacion{caminosDeLargoN}{topo/t, compu/pc, nat/n}{conj(compu)}{$pc$ $\in$ computadoras($t$)}
 
 \tadAlinearFunciones{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}
-\tadOperacion{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
-																				$\neg\emptyset?$
-																				(filtrarCaminos(caminosDeLargoN($t$, $o$, $n$),
-																				 $o$, $d$))}
+\tadOperacion{caminoMasCortoDeLargoN}{topo/t, compu/o, compu/d, nat/n}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego  EXISTE\_CAMINO($t$, $o$, $d$)}
 \tadAlinearFunciones{caminoMasCortoDeLargoN}{topo, compu, compu, nat}
 
-\tadOperacion{caminoMasCorto}{topo/t, compu/o, compu/d}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego \\
-																				(\existe{nat}{n}, $n \leq$ \#computadoras($t$))\\
-																				$\neg\emptyset?$
-																				(filtrarCaminos(caminosDeLargoN($t$, $o$, $n$),
-																				 $o$, $d$))}
+\tadOperacion{caminoMasCorto}{topo/t, compu/o, compu/d}{conj(compu)}{$o,d \in$ computadoras($t$) \yluego  EXISTE\_CAMINO($t$, $o$, $d$)}
 
 \tadAxiomas [\paratodo{topo}{t}, \paratodo{nat}{n}, \paratodo{conexion}{con, con'}, \paratodo{compu}{c,c', origen, destino}]
 \tadAlinearAxiomas{quitarConexion(AgregarComputadora($t$,$c$), $conexion$)}

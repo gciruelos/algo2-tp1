@@ -20,26 +20,17 @@
 
 \tadGeneradores
 	\tadOperacion{nuevaRed}{topo}{dcnet}{}
-	\tadOperacion{ingresarPaquete} {dcnet/d , compu/c , paq/p} {dcnet} {origenPaq($p$),destinoPaq($p$)
-																	  $\in$ computadoras(topologia($d$)) \yluego\\
-																	 (\existe{nat}{n}, $n \leq$ \#computadoras(topologia($d$)))\\
-																	\mbox{$\neg\emptyset?$
-																	(filtrarCaminos(caminoDeLargoN(topologia($d$), 
-																	origenPaq($p$),$n$), origenPaq($p$),}
-																    \hspace*{9em}destinoPaq($p$))) $\land$ \\
-                              										(\paratodo{compu}{c'}, $c' \in$ computadoras(topologia($d$))
-                             										 (\paratodo{paq}{p'}, $p' \in$ elementos(paquetesEnPC(d, c'))
-                              										 (idPaq(p) $\neq$ idPaq(p'))))}
+ 	\tadOperacion{ingresarPaquete} {dcnet/d , compu/c , paq/p} {dcnet} {origenPaq($p$),destinoPaq($p$) $\in$ computadoras(topologia($d$)) \yluego\\
+  EXISTE\_CAMINO(topologia($d$), origenPaq($p$), destinoPaq($p$)) $\land$ \\
+  (\paratodo{compu}{c'}, $c' \in$ computadoras(topologia($d$))\\
+  \hspace*{3em}(\paratodo{paq}{p'}, $p' \in$ elementos(paquetesEnPC(d, c'))\\
+  \hspace*{6em}(idPaq(p) $\neq$ idPaq(p'))))}
 	\tadOperacion{siguienteSegundo} {dcnet} {dcnet} {}
 
 \tadOtrasOperaciones
 \tadAlinearFunciones{ubicacionPaqCompus}{dcnet/d , paq/p, conj(compu) cc}
 	\tadOperacion{paquetesRecibidos} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
-	\tadOperacion{siguientePC} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego \\
-																				(\existe{nat}{n}, $n \leq$ \#computadoras(topologia($d$)))\\
-																				$\neg\emptyset?$
-																				(filtrarCaminos(caminosDeLargoN(topologia($d$), $o$, $n$),
-																				 $o$, $d$))}
+	\tadOperacion{siguientePC} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego EXISTE\_CAMINO(topologia($d$), $o$, $n$ )}
 		
 
 	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
