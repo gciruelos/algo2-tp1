@@ -17,7 +17,6 @@ TODO
 Las cosas que faltan hacer:
 
 * revisar exporta's (especialmente conexion y topologia)
-* Hacer macro para hayCamino y/o las que les parezcan convenientes
 * Revisar que este todo bien!!! :P
 
 
