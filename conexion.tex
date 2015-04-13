@@ -1,16 +1,16 @@
 \begin{tad}{\tadNombre{Conexion}}
  
  %La igualdad observacional no sé si está bien...
- \tadIgualdadObservacional{c}{c'}{conexion}{compusQueConecta($c$) \igobs compusQueConecta($c'$) $\wedge$ (\paratodo {compu}{c1}) (conectaA(c, c1) \yluego conectaA(c', c1)) \impluego \\
+ \tadIgualdadObservacional{c}{c'}{conexion}{compusQueConecta($c$) \igobs compusQueConecta($c'$) $\wedge$ (\paratodo {compu}{c1}) (conectaA(c, c1) \land conectaA(c', c1)) \impluego \\
 								(interfaz(c, c1) \igobs interfaz(c', c1)}
  %No se qué se tiene que poner en generos, experta y usa, revisar.
  \tadGeneros{conexion}
  \tadExporta {conexion, observadores, generadores, otrasoperaciones}
- \tadUsa {Computadora, Bool}
+ \tadUsa {Computadora, Bool, Interfaz, Tupla}
  
  \tadGeneradores
  
- \tadOperacion{crearConexion}{tupla(compu/c, interfaz/i), tupla(compu/c', interfaz/i')}{conexion}{$i\in$ interfaces($c$) $\wedge$ $i'\in$ interfaces($c'$)}
+ \tadOperacion{crearConexion}{tupla(compu/c, interfaz/i), tupla(compu/c', interfaz/i')}{conexion}{$i\in$ interfaces($c$) $\wedge$ $i'\in$ interfaces($c'$) $\land$ c $\neq$ c'}
  
  \tadObservadores
  \tadOperacion{compusQueConecta}{conexion}{conj(compu)}{}
@@ -31,7 +31,7 @@
  \tadAxioma{conectaA($conexion$, $c1$)}{$c1$ $\in$ compusQueConecta($conexion$)}
  % 08/04/2015 02:42 am me di cuenta que faltaron los "{}" al c1 en la resta de conjuntos en el axioma de laOtraCompu (eze)
  % Modifiquenlo, yo no sé si va a funcionar si le pongo los corchetes asi a lo bestia, quiza no compila, no sé.
- \tadAxioma{laOtraCompu($conexion$, $c1$, $c2$)}{dameUno((compusQueConecta(conexion)) - \{$c1$\})}
+ \tadAxioma{laOtraCompu($conexion$, $c1$)}{dameUno((compusQueConecta(conexion)) - \{$c1$\})}
  
  \tadAxioma{estanConectadas($conexion$, $c1$, $c2$)}{conectaA($conexion$, $c1$) $\wedge$ conectaA($conexion$, $c2$) $\wedge$ ($c1$ $\neq$ $c2$)}
 
