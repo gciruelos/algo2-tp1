@@ -16,7 +16,6 @@ TODO
 
 Las cosas que faltan hacer:
 
-* revisar exporta's (especialmente conexion y topologia)
 * Revisar que este todo bien!!! :P
 
 
