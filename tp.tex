@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,10pt, nofootinbib]{article}
 \usepackage[width=15.5cm, left=3cm, top=2.5cm, right=1cm, left=2cm, height= 24.5cm]{geometry}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
@@ -9,14 +9,18 @@
 \usepackage{caratula}
 \usepackage{fancyhdr}
 \usepackage{aed2-tad,aed2-symb,aed2-itef}
+\usepackage[bottom]{footmisc}
 
 \newcommand{\moduloNombre}[1]{\textbf{#1}}
+
 
 \let\NombreFuncion=\textsc
 \let\TipoVariable=\texttt
 \let\ModificadorArgumento=\textbf
 \newcommand{\res}{$res$\xspace}
 \newcommand{\tab}{\hspace*{7mm}}
+
+\newcommand{\footnoteMio}[2]{\textsuperscript{#1} \lfoot{\footnotesize \parbox{16cm}{\textsuperscript{#1}#2}}}
 
 \newcommandx{\TipoFuncion}[3]{%
   \NombreFuncion{#1}(#2) \ifx#3\empty\else $\to$ \res\,: \TipoVariable{#3}\fi%

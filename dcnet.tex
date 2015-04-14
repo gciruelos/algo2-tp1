@@ -29,8 +29,8 @@
 
 \tadOtrasOperaciones
 \tadAlinearFunciones{ubicacionPaqCompus}{dcnet/d , paq/p, conj(compu) cc}
-	\tadOperacion{paquetesRecibidos} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
-	\tadOperacion{siguientePC} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego EXISTE\_CAMINO(topologia($d$), $o$, $n$ )}
+	\tadOperacion{paquetesRecibidos\footnotemark} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
+  \tadOperacion{siguientePC \footnotemark} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego EXISTE\_CAMINO(topologia($d$), $o$, $n$ )}
 		
 
 	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
@@ -109,3 +109,6 @@
   \tadAxioma{ubicacionPaqCompus($d$, $p$, $cc$)}{\IF $p \in$ elementos(paquetesEnPC($d$, dameUno($cc$))) THEN dameUno($cc$) ELSE ubicacionPaqCompus($d$, $p$, sinUno($cc$)) FI}
 					
 \end{tad}
+
+\footnotetext[2]{Devuelve los paquetes que va a recibir la PC si pasara un segundo a continuacion}
+\footnotetext{Devuelve cual es la siguiente pc en el recorrido para ir de la pc de origen a la pc de destino}

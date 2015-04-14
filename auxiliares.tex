@@ -31,7 +31,7 @@
 															FI}
 
 %%%Auxiliares de dcnet%%%
-\item[$\bullet$]\tadOperacion{filtrarVaAPC} {dcnet , conj(compu) , compu} {conj(paq)} {}
+\item[$\bullet$]\tadOperacion{filtrarVaAPC\footnotemark[4]} {dcnet , conj(compu) , compu} {conj(paq)} {}
 \tadAxioma{filtrarVaAPC($d$, $cc$, $c$)} {\IF $\emptyset?$($cc$)
 										 	THEN $\emptyset$
 										 	ELSE {\IF siguientePC($d$, dameUno($cc$), \\
@@ -57,3 +57,5 @@ EXISTE\_CAMINO($t$ : $topo$, origen : compu, $destino$ : compu) $\to$ \\
 \hspace*{6em}(\existe{nat}{n}, $n \leq$ \#computadoras($t$))\\
 \hspace*{8em}$\neg\emptyset?$ (filtrarCaminos(caminosDeLargoN($t$, $origen$, $n$),\\
 \hspace*{17em}$origen$, $destino$))
+
+\footnotetext[4]{Del conjunto de computadoras que me pasan por parametro, me fijo cuales van a enviar paquetes a la otra computadora (si el segundo cambia a continuacion)  y devuelvo esos paquetes; me va a servir para saber que paquetes hay en cada computadora despues de que pase un segundo}
