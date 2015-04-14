@@ -15,12 +15,12 @@
 \tadAxioma{elementos($c$)}{\IF vacia?($c$) THEN $\emptyset$ ELSE Ag(proximo(c),elementos(desencolar(c))) FI}
 
 %%%Auxiliares de topologia%%%
-\item[$\bullet$]\tadOperacion{esCamino}{conj(compu), compu, compu}{bool}{}
+\item[$\bullet$]\tadOperacion{esCamino}{conj(secu(compu)), compu, compu}{bool}{}
 \tadAxioma{esCamino($camino$, $origen$, $destino$)}{ long($camino$) > 0 \yluego 
 													$origen$ = prim($camino$) $\wedge$ \\
 													destino = ult($camino$)}
 
-\item[$\bullet$]\tadOperacion{filtrarCaminos}{conj(compu), compu, compu}{conj(compu)}{}
+\item[$\bullet$]\tadOperacion{filtrarCaminos}{conj(secu(compu)), compu, compu}{conj(secu(compu))}{}
 \tadAxioma{filtrarCaminos($caminos$, $origen$, $destino$)} {\IF esVacio($caminos$) 
 															THEN Vacio 
 															ELSE {\IF esCamino(dameUno($caminos$), $origen$, $destino$) 
@@ -53,7 +53,7 @@
 \end{itemize}
 
 \subsection*{Macros}
-EXISTE\_CAMINO($t$ : $topo$, origen : compu, $destino$ : compu) $\to$ \\
+EXISTE\_CAMINO($t$ : $topo$, origen : compu, $destino$ : compu) $:\equiv$ \\
 \hspace*{6em}(\existe{nat}{n}, $n \leq$ \#computadoras($t$))\\
 \hspace*{8em}$\neg\emptyset?$ (filtrarCaminos(caminosDeLargoN($t$, $origen$, $n$),\\
 \hspace*{17em}$origen$, $destino$))

@@ -38,7 +38,7 @@
 	\tadOperacion{PCQueEnvioMasPaq} {dcnet/d} {compu} {$\neg\emptyset$?(computadoras(topologia($d$)))}   
 	\tadOperacion{\#PaquetesEnPC} {dcnet/d , compu/c} {nat}	{$c\in$ computadoras(topologia($d$))}							  
 	\tadOperacion{ubicacionPaq} {dcnet/d , paq/p} {compu} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$))}
-	\tadOperacion{ubicacionPaqCompus} {dcnet/d , paq/p, conj(compu) cc} {compu} {(\existe{compu}{c}, $c \in$ computadoras(topologia($d$))) $p\in$ elementos(paquetesEnPC($d$, $c$)) $\wedge$ \\ $cc \subseteq$ computadoras(topologia($d$))}
+	\tadOperacion{ubicacionPaqCompus} {dcnet/d , paq/p, conj(compu) cc} {compu} {$cc \subseteq$ computadoras(topologia($d$)) \yluego (\existe{compu}{c}, $c \in$ $cc$) $p\in$ elementos(paquetesEnPC($d$, $c$))}
 
 \tadAxiomas [\paratodo {dcnet}{d}, \paratodo {compu}{c, c', actual, destino}, \paratodo{topo}{t}, \paratodo{paq}{p}]
 	\tadAlinearAxiomas{topologia(ingresarPaquete($d$, $c$, $p$))}
@@ -102,9 +102,7 @@
 	
 	\tadAxioma{\#PaquetesEnPC($d$, $c$)} {cantDeElementos(paquetesEnPC($d$, $c$))}
 	
-	\tadAxioma{recorridoPaquete($d$, $p$, $c$)} {caminoMasCorto(topologia($d$), origenPaq($p$), $c$)}
-
-  \tadAxioma{ubicacionPaq($d$, $p$)}{ubicacionPaqCompus($d$, $p$, computadoras(topologia($d$))}
+	\tadAxioma{ubicacionPaq($d$, $p$)}{ubicacionPaqCompus($d$, $p$, computadoras(topologia($d$))}
   
   \tadAxioma{ubicacionPaqCompus($d$, $p$, $cc$)}{\IF $p \in$ elementos(paquetesEnPC($d$, dameUno($cc$))) THEN dameUno($cc$) ELSE ubicacionPaqCompus($d$, $p$, sinUno($cc$)) FI}
 					
