@@ -1,18 +1,18 @@
 \begin{itemize}
 
 \item[$\bullet$]\tadOperacion{agregarAlPrincipio}{$\alpha$, conj(secu($\alpha$))} {conj(secu($\alpha$))}{}
-\tadAxioma{agregarAlPrincipio($a$, $s$)}{\IF $\emptyset?$($s$) THEN $\emptyset$ ELSE Ag ($a$ $\puntito$ (dameUno ($s$))) (agregarAlPrincipio($a$, sinUno($s$))) FI}
+\tadAxioma{agregarAlPrincipio($a$, $s$)}{\IF $\emptyset?$($s$) THEN $\emptyset$ ELSE Ag(($a$ $\puntito$ (dameUno ($s$))),(agregarAlPrincipio($a$, sinUno($s$))))= FI}
 
 
 \item[$\bullet$]\tadOperacion{agregarMuchos}{conj($\alpha$), colaPrior($\alpha$)}{colaPrior($\alpha$)}{}
-\tadAxioma{agregarMuchos($s$, $c$)}{\IF $\emptyset?$($s$) THEN c ELSE agregarMuchos (sinUno($s$)) (encolar (dameUno($s$) $c$))FI}
+\tadAxioma{agregarMuchos($s$, $c$)}{\IF $\emptyset?$($s$) THEN c ELSE agregarMuchos((sinUno($s$)),(encolar (dameUno($s$) $c$)))FI}
 
 
 \item[$\bullet$]\tadOperacion{cantDeElementos}{colaPrior($\alpha$)}{nat}{}
-\tadAxioma{cantDeElementos($c$)}{\IF vacia?($c$) THEN $0$ ELSE $1$ + (cantElementos(desencolar($c$)))FI}
+\tadAxioma{cantDeElementos($c$)}{\IF vacia?($c$) THEN $0$ ELSE $1$ + (cantElementos(desencolar($c$))) FI}
 
 \item[$\bullet$]\tadOperacion{elementos}{colaPrior($\alpha$)}{conj($\alpha$)}{}
-\tadAxioma{elementos($c$)}{\IF vacia?($c$) THEN $\emptyset$ ELSE Ag proximo(c) elementos(desencolar(c))FI}
+\tadAxioma{elementos($c$)}{\IF vacia?($c$) THEN $\emptyset$ ELSE Ag(proximo(c),elementos(desencolar(c))) FI}
 
 %%%Auxiliares de topologia%%%
 \item[$\bullet$]\tadOperacion{esCamino}{conj(compu), compu, compu}{bool}{}
