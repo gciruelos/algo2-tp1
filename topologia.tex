@@ -43,15 +43,15 @@
 \tadAxiomas [\paratodo{topo}{t}, \paratodo{nat}{n}, \paratodo{conexion}{con, con'}, \paratodo{compu}{c,c', origen, destino}]
 \tadAlinearAxiomas{quitarConexion(AgregarComputadora($t$,$c$), $conexion$)}
 
-\tadAxioma{computadoras(Vacia)}{Vacio}
+\tadAxioma{computadoras(Vacia)}{$\emptyset$}
 \tadAxioma{computadoras(AgregarComputadora($t$,$c$))}{Ag($c$,computadoras($t$))}
 \tadAxioma{computadoras(AgregarConexion($t$,$con$))}{computadoras($t$)}
 
-\tadAxioma{conexiones(Vacia)}{Vacio}
+\tadAxioma{conexiones(Vacia)}{$\emptyset$}
 \tadAxioma{conexiones(AgregarComputadora($t$,$c$)}{conexiones($t$)}
 \tadAxioma{conexiones(AgregarConexion($t$,$con$)}{Ag($con$,conexiones($t$))}
 
-\tadAxioma{quitarConexion(Vacia, $con$)}{Vacio}
+\tadAxioma{quitarConexion(Vacia, $con$)}{$\emptyset$}
 \tadAxioma{quitarConexion(AgregarComputadora($t$,$c$), $con$)}{quitarConexion($t$,$con$)}
 \tadAxioma{quitarConexion(AgregarConexion($t$,$con'$), $con$)}{\IF $con$ = $con'$
 																THEN quitarConexion($t$) 
@@ -85,8 +85,8 @@
 													 FI} 
 												 FI}
 
-\tadAlinearAxiomas{caminoMasCortoDeLargoN($t$, $origen$, $destino$, $n$)}
-\tadAxioma{caminoMasCortoDeLargoN($t$, $origen$, $destino$, $n$)} {\IF $\neg\emptyset?$(filtrarCaminos(caminosDeLargoN($t$,
+\tadAlinearAxiomas{caminoMasCortoDeLargoNx($t$, $origen$, $destino$, $n$)}
+\tadAxioma{caminoMasCortoDeLargoN\footnotemark[2]($t$, $origen$, $destino$, $n$)} {\IF $\neg\emptyset?$(filtrarCaminos(caminosDeLargoN($t$,
 																			$origen$, $n$), $origen$, $destino$))\\
 																			THEN dameuno(filtrarCaminos(caminosDeLargoN($t$,
 																			$origen$,$n$), $origen$, $destino$) 
@@ -95,4 +95,5 @@
 \tadAxioma{caminoMasCorto($t$, $origen$, $destino$)}{caminoMasCortoDeLargoN($t$,$origen$,$destino$,0)}
 
 \end{tad}
-\footnotetext{Quita la conexion de la red. La usamos para iterar sobre una red: asi como para iterar sobre un conjunto usamos dameUno y sinUno, aqui usamos esto}
+\footnotetext[1]{Quita la conexion de la red. La usamos para iterar sobre una red: asi como para iterar sobre un conjunto usamos dameUno y sinUno, aqui usamos esto}
+\footnotetext[2]{Conseguimos todos los caminos de largo $n-1$ que parten desde los vecinos de la computadora en cuestion, y a esos caminos les agregamos al principio (eso es $agregarAlPrincipio$) la primera computadora.}

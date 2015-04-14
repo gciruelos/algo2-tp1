@@ -22,15 +22,14 @@
  \tadOperacion{laOtraCompu}{conexion/c, compu/c1}{compu}{conectaA($c$, $c1$)}
  \tadOperacion{estanConectadas}{conexion, compu, compu}{bool}{}
  
- \tadAxiomas [\paratodo{compu}{c1,c2}, \paratodo{conexion}{conexion}, \paratodo{interfaz}{i1,i2}]
+ \tadAxiomas [\paratodo{compu}{c, c1,c2}, \paratodo{conexion}{conexion}, \paratodo{interfaz}{i1,i2}]
  
  \tadAxioma{compusQueConecta(crearConexion(($c1$, $i1$), ($c2$, $i2$)))}{Ag($c1$, Ag($c2$, Vacio))}
 
  \tadAxioma{interfaz(crearConexion(($c1$, $i1$), ($c2$, $i2$)), $c$)}{\IF $c$ = $c1$ THEN $i1$ ELSE $i2$ FI} 
  
  \tadAxioma{conectaA($conexion$, $c1$)}{$c1$ $\in$ compusQueConecta($conexion$)}
- % 08/04/2015 02:42 am me di cuenta que faltaron los "{}" al c1 en la resta de conjuntos en el axioma de laOtraCompu (eze)
- % Modifiquenlo, yo no sé si va a funcionar si le pongo los corchetes asi a lo bestia, quiza no compila, no sé.
+ 
  \tadAxioma{laOtraCompu($conexion$, $c1$)}{dameUno((compusQueConecta(conexion)) - \{$c1$\})}
  
  \tadAxioma{estanConectadas($conexion$, $c1$, $c2$)}{conectaA($conexion$, $c1$) $\wedge$ conectaA($conexion$, $c2$) $\wedge$ ($c1$ $\neq$ $c2$)}

@@ -9,7 +9,7 @@
 								}
 \tadGeneros{dcnet}
 \tadExporta {dcnet, observadores, generadores, PCQueEnvióMasPaq, recorridoPaquete, \#PaquetesEnPC}
-\tadUsa {Topología, Cola De Prioridad(paq), Paquete, Computadora}
+\tadUsa {Bool, Topología, Cola De Prioridad(paq), Paquete, Computadora}
 
 \tadObservadores
 	\tadAlinearFunciones{PCQueEnvioMasPaq}{dcnet/d , compu/c , paq/p xx}
@@ -29,8 +29,8 @@
 
 \tadOtrasOperaciones
 \tadAlinearFunciones{ubicacionPaqCompus}{dcnet/d , paq/p, conj(compu) cc}
-	\tadOperacion{paquetesRecibidos\footnotemark} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
-  \tadOperacion{siguientePC \footnotemark} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego EXISTE\_CAMINO(topologia($d$), $o$, $n$ )}
+	\tadOperacion{paquetesRecibidos\footnotemark[3]} {dcnet/d , compu/c} {conj(paq)} {$c\in$ computadoras(topologia($d$))}
+  \tadOperacion{siguientePC \footnotemark[4]} {dcnet/d , compu/o , compu/d} {compu} {$o,d \in$ computadoras(topologia($d$)) \yluego EXISTE\_CAMINO(topologia($d$), $o$, $n$ )}
 		
 
 	\tadOperacion{PCEnvMasPaqAux} {dcnet/d , conj(compu)/cc} {compu} {$\neg$ $\emptyset?$($cc$) $\wedge$ 
@@ -108,5 +108,5 @@
 					
 \end{tad}
 
-\footnotetext[2]{Devuelve los paquetes que va a recibir la PC si pasara un segundo a continuacion}
-\footnotetext{Devuelve cual es la siguiente pc en el recorrido para ir de la pc de origen a la pc de destino}
+\footnotetext[3]{Devuelve los paquetes que va a recibir la PC si pasara un segundo a continuacion}
+\footnotetext[4]{Devuelve cual es la siguiente pc en el recorrido para ir de la pc de origen a la pc de destino}

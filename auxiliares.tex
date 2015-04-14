@@ -1,7 +1,9 @@
+\small
 \begin{itemize}
 
+
 \item[$\bullet$]\tadOperacion{agregarAlPrincipio}{$\alpha$, conj(secu($\alpha$))} {conj(secu($\alpha$))}{}
-\tadAxioma{agregarAlPrincipio($a$, $s$)}{\IF $\emptyset?$($s$) THEN $\emptyset$ ELSE Ag(($a$ $\puntito$ (dameUno ($s$))),(agregarAlPrincipio($a$, sinUno($s$))))= FI}
+\tadAxioma{agregarAlPrincipio($a$, $s$)}{\IF $\emptyset?$($s$) THEN $\emptyset$ ELSE Ag(($a$ $\puntito$ (dameUno ($s$))),(agregarAlPrincipio($a$, sinUno($s$)))) FI}
 
 
 \item[$\bullet$]\tadOperacion{agregarMuchos}{conj($\alpha$), colaPrior($\alpha$)}{colaPrior($\alpha$)}{}
@@ -15,7 +17,7 @@
 \tadAxioma{elementos($c$)}{\IF vacia?($c$) THEN $\emptyset$ ELSE Ag(proximo(c),elementos(desencolar(c))) FI}
 
 %%%Auxiliares de topologia%%%
-\item[$\bullet$]\tadOperacion{esCamino}{conj(secu(compu)), compu, compu}{bool}{}
+\item[$\bullet$]\tadOperacion{esCamino}{secu(compu), compu, compu}{bool}{}
 \tadAxioma{esCamino($camino$, $origen$, $destino$)}{ long($camino$) > 0 \yluego 
 													$origen$ = prim($camino$) $\wedge$ \\
 													destino = ult($camino$)}
@@ -31,12 +33,12 @@
 															FI}
 
 %%%Auxiliares de dcnet%%%
-\item[$\bullet$]\tadOperacion{filtrarVaAPC\footnotemark[4]} {dcnet , conj(compu) , compu} {conj(paq)} {}
+\item[$\bullet$]\tadOperacion{filtrarVaAPC\footnotemark[5]} {dcnet , conj(compu) , compu} {conj(paq)} {$cc \subseteq$ computadoras($d$)}
 \tadAxioma{filtrarVaAPC($d$, $cc$, $c$)} {\IF $\emptyset?$($cc$)
 										 	THEN $\emptyset$
 										 	ELSE {\IF siguientePC($d$, dameUno($cc$), \\
-										 			\hspace*{1em}destinoPaq(próximo(paquetesEnPC($d$, dameUno($d$))))) = $c$\\
-										 			THEN \mbox{Ag(próximo(paquetesEnPC($d$, dameUno($c$)), filtrarVaAPC($d$,
+										 			\hspace*{2em}destinoPaq(próximo(paquetesEnPC($cc$, dameUno($d$))))) = $c$\\
+										 			THEN \mbox{Ag(próximo(paquetesEnPC($d$, dameUno($cc$)), filtrarVaAPC($d$,
 										 			 sinUno($cc$), $c$)))}
 										 			ELSE filtrarVaAPC($d$, sinUno($cc$), $c$)
 										 			FI}
@@ -55,7 +57,6 @@
 \subsection*{Macros}
 EXISTE\_CAMINO($t$ : $topo$, origen : compu, $destino$ : compu) $:\equiv$ \\
 \hspace*{6em}(\existe{nat}{n}, $n \leq$ \#computadoras($t$))\\
-\hspace*{8em}$\neg\emptyset?$ (filtrarCaminos(caminosDeLargoN($t$, $origen$, $n$),\\
-\hspace*{17em}$origen$, $destino$))
+\hspace*{8em}$\neg\emptyset?$ (filtrarCaminos(caminosDeLargoN($t$, $origen$, $n$), $origen$, $destino$))
 
-\footnotetext[4]{Del conjunto de computadoras que me pasan por parametro, me fijo cuales van a enviar paquetes a la otra computadora (si el segundo cambia a continuacion)  y devuelvo esos paquetes; me va a servir para saber que paquetes hay en cada computadora despues de que pase un segundo}
+\footnotetext[5]{Del conjunto de computadoras que me pasan por parametro, me fijo cuales van a enviar paquetes a la otra computadora (si el segundo cambia a continuacion)  y devuelvo esos paquetes; me va a servir para saber que paquetes hay en cada computadora despues de que pase un segundo}
